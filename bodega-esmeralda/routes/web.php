@@ -16,7 +16,7 @@ Route::get('/map', function () {
         'laravelVersion' => Application::VERSION,
         'phpVersion' => PHP_VERSION,
     ]);
-});
+})->middleware(['auth', 'verified'])->name('map');
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
