@@ -1,5 +1,7 @@
 import '../css/app.css';
-import './bootstrap';
+import 'bootstrap/dist/css/bootstrap.min.css'; // ✅ Bootstrap CSS
+import 'bootstrap'; // ✅ Bootstrap JS
+import './bootstrap'; // Your existing bootstrap setup (Axios etc.)
 
 import { createInertiaApp } from '@inertiajs/vue3';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
