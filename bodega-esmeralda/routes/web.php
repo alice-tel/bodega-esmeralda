@@ -9,7 +9,7 @@ Route::get('/', function () {
     return redirect()->route('login');
 });
 
-Route::get('/welcome', function () {
+Route::get('/map', function () {
     return Inertia::render('Welcome', [
         'canLogin' => Route::has('login'),
         'canRegister' => Route::has('register'),
