@@ -26,7 +26,7 @@
     <body class="font-poppins antialiased">
     <nav class="navbar bg-body-tertiary d-block"> {{--this is bootstrap navbar --}}
         <div class="container-fluid">
-            <a class="navbar-brand" href="#">Bodega Esmeralda</a>
+            <a class="navbar-brand" href="/">Bodega Esmeralda</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -42,6 +42,12 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link active" aria-current="page" href="/profile">Profile</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="/graphs">Humidity Graphs</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="/admin_page">Admin Page</a>
                         </li>
                         @if (Auth::check())
                         <li class="nav-item">

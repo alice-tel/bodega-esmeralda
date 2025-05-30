@@ -27,6 +27,6 @@ function handleImageError() {
 </script>
 
 <template>
-    <Head title="Welcome" />
-<p>test1234</p>
+    <Head title="Map" />
+<p>Show large map here</p>
 </template>

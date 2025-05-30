@@ -10,13 +10,31 @@ Route::get('/', function () {
 });
 
 Route::get('/map', function () {
-    return Inertia::render('Welcome', [
+    return Inertia::render('Map', [
         'canLogin' => Route::has('login'),
         'canRegister' => Route::has('register'),
         'laravelVersion' => Application::VERSION,
         'phpVersion' => PHP_VERSION,
     ]);
 })->middleware(['auth', 'verified'])->name('map');
+
+Route::get('/graphs', function() {
+    return Inertia::render('Graphs', [
+        'canLogin' => Route::has('login'),
+        'canRegister' => Route::has('register'),
+        'laravelVersion' => Application::VERSION,
+        'phpVersion' => PHP_VERSION,
+    ]);
+})->middleware(['auth', 'verified'])->name('graphs');
+
+Route::get('/admin_page', function() {
+    return Inertia::render('AdminPage', [
+        'canLogin' => Route::has('login'),
+        'canRegister' => Route::has('register'),
+        'laravelVersion' => Application::VERSION,
+        'phpVersion' => PHP_VERSION,
+    ]);
+})->middleware(['auth', 'verified'])->name('admin_page');
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
