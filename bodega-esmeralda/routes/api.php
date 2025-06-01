@@ -12,33 +12,26 @@ Route::middleware('api')->get('/user', function (Request $request) {
 // chat gpt generated mumbo jumbo cuz i ddint want to type out the data
 
 Route::get('/stations', function () {
-    $stations = [];
-
-    $stationNames = ['100020', '100040', '100060'];
-    foreach ($stationNames as $name) {
-        $data = [];
-
-        for ($i = 0; $i < 24; $i++) {
-            $hour = str_pad($i, 2, '0', STR_PAD_LEFT);
-            $minute = rand(0, 59);
-            $second = rand(0, 59);
-
-            $data[] = [
-                'date' => date('Y-m-d'), // today's date
-                'time' => "$hour:" . str_pad($minute, 2, '0', STR_PAD_LEFT) . ":" . str_pad($second, 2, '0', STR_PAD_LEFT),
-                'temperature' => rand(-10, 35),
-                'humidity' => rand(0, 100)
-            ];
-        }
-
-        $stations[] = [
-            'name' => $name,
-            'longitude' => 6 + rand(300, 400) / 1000,
-            'latitude' => 53 + rand(600, 800) / 1000,
-            'elevation' => rand(1, 20),
-            'data' => $data
-        ];
-    }
-
-    return response()->json($stations);
+    return response()->json([
+        [
+            "name" => "100020",
+            "longitude" => 6.367,
+            "latitude" => 53.8,
+            "elevation" => 6,
+            "tempurture" => 15,
+            "humidity" => 20,
+            "time" => "16:59:30",
+            "date" => "2025-05-31"
+        ],
+        [
+            "name" => "100040",
+            "longitude" => 6.35,
+            "latitude" => 54.167,
+            "elevation" => 3,
+            "tempurture" => -7,
+            "humidity" => 10,
+            "time" => "16:59:30",
+            "date" => "2025-05-31"
+        ]
+    ]);
 });

@@ -30,7 +30,7 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::get('/diagram', function () {
-    return Inertia::render('Diagram');
+    return Inertia::render('Diagrams');
 });
 
 require __DIR__.'/auth.php';
