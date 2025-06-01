@@ -24,6 +24,16 @@ Route::get('/stations', function () {
             "date" => "2025-05-31"
         ],
         [
+            "name" => "100020",
+            "longitude" => 6.35,
+            "latitude" => 54.167,
+            "elevation" => 3,
+            "tempurture" => -15,
+            "humidity" => 20,
+            "time" => "17:59:30",
+            "date" => "2025-05-31"
+        ],
+        [
             "name" => "100040",
             "longitude" => 6.35,
             "latitude" => 54.167,
@@ -32,6 +42,16 @@ Route::get('/stations', function () {
             "humidity" => 10,
             "time" => "16:59:30",
             "date" => "2025-05-31"
-        ]
+        ],
+        [
+        "name" => "100040",
+        "longitude" => 6.35,
+        "latitude" => 54.167,
+        "elevation" => 3,
+        "tempurture" => -15,
+        "humidity" => 20,
+        "time" => "17:59:30",
+        "date" => "2025-05-31"
+    ]
     ]);
 });
