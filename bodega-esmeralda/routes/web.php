@@ -29,4 +29,8 @@ Route::middleware('auth')->group(function () {
 
 });
 
+Route::get('/diagram', function () {
+    return Inertia::render('Diagram');
+});
+
 require __DIR__.'/auth.php';
