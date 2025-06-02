@@ -22,7 +22,7 @@
                 <canvas :id="`temp-${name}`" width="400" height="200"></canvas>
                 <canvas :id="`hum-${name}`" width="400" height="200"></canvas>
             </div>
-
+<!--deze 2 regels hieronder laten de raw json data van elk grafiek zien als t actief staat-->
 <!--            <h3>Raw Data:</h3>-->
 <!--            <pre>{{ JSON.stringify(entries, null, 2) }}</pre>-->
         </div>
