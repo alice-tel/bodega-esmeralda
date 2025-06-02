@@ -1,3 +1,30 @@
+## Commands
+
+### Running Site 
+* npm run dev
+* php artisan serve (at the same time as npm run dev)
+
+### Database
+Running this will recreate al tables.
+* php artisan migrate:fresh
+
+Running this will fill the tables with the data from the seeders.
+* php artisan db:seed
+
+Running this will recreate al tables and fill them with the data from the seeders.
+* php artisan migrate:fresh --seed
+
+### Schedules
+Running this will give you a list of the scheduled commands and how many minutes until they are run. (they'll only run if the worker is running) 
+* php artisan schedule:list
+
+Running this will start the running of scheduled commands.
+* php artisan schedule:work
+
+Running this will query temperatures of this hour from IWA and save them to Bodega database.
+* php artisan query-save:temperatures
+
+
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
 <p align="center">
@@ -64,3 +91,5 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+
