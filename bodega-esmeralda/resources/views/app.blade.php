@@ -42,6 +42,9 @@
                                 <a class="nav-link active" aria-current="page" href="/map">Map</a>
                             </li>
                             <li class="nav-item">
+                                <a class="nav-link active" aria-current="page" href="/diagram">Ghraps</a>
+                            </li>
+                            <li class="nav-item">
                                 <a class="nav-link active" aria-current="page" href="/profile">Profile</a>
                             </li>
                         <li class="nav-item">
