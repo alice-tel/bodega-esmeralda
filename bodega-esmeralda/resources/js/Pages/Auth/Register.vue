@@ -26,7 +26,6 @@ const submit = () => {
 
         <form @submit.prevent="submit">
             <div>
-                <InputLabel for="name" value="Name" />
 
                 <TextInput
                     id="name"
@@ -34,6 +33,7 @@ const submit = () => {
                     class="mt-1 block w-full"
                     v-model="form.name"
                     required
+                    label="Name"
                     autofocus
                     autocomplete="name"
                 />
@@ -42,13 +42,12 @@ const submit = () => {
             </div>
 
             <div class="mt-4">
-                <InputLabel for="email" value="Email" />
-
                 <TextInput
                     id="email"
                     type="email"
                     class="mt-1 block w-full"
                     v-model="form.email"
+                    label="Email"
                     required
                     autocomplete="username"
                 />
@@ -57,13 +56,13 @@ const submit = () => {
             </div>
 
             <div class="mt-4">
-                <InputLabel for="password" value="Password" />
 
                 <TextInput
                     id="password"
                     type="password"
                     class="mt-1 block w-full"
                     v-model="form.password"
+                    label="Password"
                     required
                     autocomplete="new-password"
                 />
@@ -72,17 +71,13 @@ const submit = () => {
             </div>
 
             <div class="mt-4">
-                <InputLabel
-                    for="password_confirmation"
-                    value="Confirm Password"
-                />
-
                 <TextInput
                     id="password_confirmation"
                     type="password"
                     class="mt-1 block w-full"
                     v-model="form.password_confirmation"
                     required
+                    label="Confirm Password"
                     autocomplete="new-password"
                 />
 
