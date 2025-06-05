@@ -45,7 +45,7 @@ class TemperaturesMeasurements extends Model
         }
     }
 
-    static function getTemperaturesMeasurementsOfToday(): array
+    public static function getTemperaturesMeasurementsOfToday(): array
     {
         return TemperaturesMeasurements::all()->where(self::DATE, now()->toDate())->all();
     }
@@ -55,7 +55,7 @@ class TemperaturesMeasurements extends Model
      * Gets the temperatures of stations in south-america to the
      * @return array
      */
-    static function getTemperaturesMeasurementsOfNow(): array
+    public static function getTemperaturesMeasurementsOfNow(): array
     {
         $currentHourTimes = [];
 
