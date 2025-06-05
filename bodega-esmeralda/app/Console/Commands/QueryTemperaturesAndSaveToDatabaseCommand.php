@@ -15,7 +15,6 @@ class QueryTemperaturesAndSaveToDatabaseCommand extends Command
         $service->login();
         $response = $service->queryTemperaturesOfCurrentDayAndHour();
         $measurements = json_decode($response);
-        Log::info(print_r($measurements, true));
         TemperaturesMeasurements::saveAsTempMeasurements($measurements);
     }
 }

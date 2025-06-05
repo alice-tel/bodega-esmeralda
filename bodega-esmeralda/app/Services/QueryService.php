@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Http\Controllers\ApiTestController;
+use Illuminate\Support\Facades\Log;
 
 class QueryService
 {
@@ -55,8 +56,10 @@ class QueryService
 
         $loginContext = stream_context_create($loginOptions);
         $url = self::getURL();
+        $completeUrl = "$url/api/IWA/contracten/login?email=$this->email&password=$this->password";
+        Log::info($completeUrl);
         $resultLogin = file_get_contents(
-            "$url/api/IWA/contracten/login?email=$this->email&password=$this->password",
+            $completeUrl,
             false, $loginContext);
 
         $resultObj = json_decode($resultLogin);
@@ -115,7 +118,8 @@ class QueryService
         $queryParameters = count($args) <= 0 ? "" : self::toQueryParameters($args);
 
         $url = self::getURL();
-        return file_get_contents("$url/api/IWA/contracten/{$contractId}/{$id}$queryParameters", false, $dataContext);
+        $completeUrl = "$url/api/IWA/contracten/{$contractId}/{$id}$queryParameters";
+        return file_get_contents($completeUrl, false, $dataContext);
     }
 
     public function queryTemperaturesOfCurrentDayAndHour()
@@ -125,7 +129,6 @@ class QueryService
         $time = date("$hour:00:00");
 
         $queries = ["date" => $date, "time" => $time];
-
         return $this->query(self::TEMPERATURE_HOUR_QUERY_ID, $queries);
 
     }

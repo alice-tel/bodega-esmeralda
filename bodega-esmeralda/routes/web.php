@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ApiTestController;
+use App\Http\Controllers\DiagramsController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -31,8 +32,6 @@ Route::middleware('auth')->group(function () {
 
 });
 
-Route::get('/diagram', function () {
-    return Inertia::render('Diagrams');
-});
+Route::get('/diagram', [DiagramsController::class, 'getDiagram'])->name('getDiagram');
 
 require __DIR__.'/auth.php';
