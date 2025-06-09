@@ -1,105 +1,10 @@
 <script setup>
+import {ref } from "vue";
+let input = ref("");
 
-
-
-const { myProp } = defineProps({
+const prop = defineProps({
     stations: Array
 });
-import { watch, ref} from 'vue'
-import { usePage } from '@inertiajs/vue3'
-
-import axios from 'axios'
-import { Chart, registerables } from 'chart.js';
-Chart.register(...registerables)
-
-const stationsRaw = ref([])
-const searchQuery = ref('')
-
-
-// // Group raw stations by name
-// const groupedStations = computed(() => {
-//     const groups = {}
-//     for (const station of stationsRaw.value) {
-//         if (!groups[station.name]) {
-//             groups[station.name] = []
-//         }
-//         groups[station.name].push(station)
-//     }
-//     return groups
-// })
-
-
-// // dit zorgt ervoor dat t niet telkens wachten tot search knop is maar t actief mee veranderd (zoekbar)
-// watch(filteredStations, async () => {
-//     await nextTick()
-//     renderAllCharts()
-// })
-
-// Draw charts
-function renderAllCharts() {
-    const hourlyData = Array.from({ length: 24 }, (_, h) => {
-        const hourStr = h.toString().padStart(2, '0')
-        const entry = myProp.stations().find(e => e.time.startsWith(hourStr))
-        return {
-            hour: hourStr,
-            temperature: entry ? entry.tempurture : null,
-            humidity: entry ? entry.humidity : null
-        }
-    })
-//grafieken gejat van t internet
-    const tempCtx = document.getElementById(`temp-${name}`)
-    if (tempCtx) {
-        new Chart(tempCtx.getContext('2d'), {
-            type: 'bar',
-            data: {
-                labels: hourlyData.map(d => d.hour),
-                datasets: [
-                    {
-                        label: 'Temperature (°C)',
-                        data: hourlyData.map(d => d.temperature),
-                        backgroundColor: 'rgba(255, 99, 132, 0.7)'
-                    }
-                ]
-            },
-            options: {
-                responsive: false,
-                scales: {
-                    y: { min: -50, max: 50 }
-                },
-                plugins: {
-                    title: { display: true, text: `Temperature (°C) by Hour - Station ${name}` }
-                }
-            }
-        })
-    }
-
-    const humCtx = document.getElementById(`hum-${name}`)
-    if (humCtx) {
-        new Chart(humCtx.getContext('2d'), {
-            type: 'bar',
-            data: {
-                labels: hourlyData.map(d => d.hour),
-                datasets: [
-                    {
-                        label: 'Humidity (%)',
-                        data: hourlyData.map(d => d.humidity),
-                        backgroundColor: 'rgba(54, 162, 235, 0.7)'
-                    }
-                ]
-            },
-            options: {
-                responsive: false,
-                scales: {
-                    y: { min: 0, max: 100 }
-                },
-                plugins: {
-                    title: { display: true, text: `Humidity (%) by Hour - Station ${name}` }
-                }
-            }
-        })
-    }
-}
-
 </script>
 
 <template>
@@ -115,7 +20,7 @@ function renderAllCharts() {
 
         <!-- Station blokken om ze te splitten vann elkaar-->
         <div
-            v-for="(entries, name) in stations"
+            v-for="(station, name) in stations"
             :key="name"
             style="border: 1px solid #ccc; margin-bottom: 2rem; padding: 1rem; border-radius: 8px;"
         >
@@ -127,11 +32,13 @@ function renderAllCharts() {
             </div>
 <!--deze 2 regels hieronder laten de raw json data van elk grafiek zien als t actief staat-->
             <h3>Raw Data:</h3>
-            <pre>{{ stations }}</pre>
+            <pre>{{ station }}</pre>
+
+            <!-- accses somthing specific -->
+            <h3> Temperature: </h3>
+            <pre>{{ station.map(m => m.temperature) }}</pre>
         </div>
     </div>
 </template>
 
-<!--<script>-->
 
-<!--</script>-->

@@ -17,7 +17,7 @@ class DiagramsController extends Controller
                 "longitude" => 6.367,
                 "latitude" => 53.8,
                 "elevation" => 6,
-                "tempurture" => 15,
+                "temperature" => 15,
                 "humidity" => 20,
                 "time" => "16:59:30",
                 "date" => "2025-05-31"
@@ -27,9 +27,19 @@ class DiagramsController extends Controller
                 "longitude" => 6.35,
                 "latitude" => 54.167,
                 "elevation" => 3,
-                "tempurture" => -7,
+                "temperature" => -7,
                 "humidity" => 10,
                 "time" => "16:59:30",
+                "date" => "2025-05-31"
+            ],
+            [
+                "name" => "100020",
+                "longitude" => 5.367,
+                "latitude" => 58.8,
+                "elevation" => 7,
+                "temperature" => 15,
+                "humidity" => 28,
+                "time" => "18:59:30",
                 "date" => "2025-05-31"
             ],
             [
@@ -37,7 +47,7 @@ class DiagramsController extends Controller
                 "longitude" => 6.4,
                 "latitude" => 53.9,
                 "elevation" => 2,
-                "tempurture" => 12,
+                "temperature" => 12,
                 "humidity" => 30,
                 "time" => "16:59:30",
                 "date" => "2025-05-31"
@@ -48,20 +58,23 @@ class DiagramsController extends Controller
 //        return $allMeasurements;
         //TODO Daarna stap gewijs de html leger en leger maken.
 
+
 //        return view('Diagrams');
         return Inertia::render('Diagrams', [
-            'stations' => $allMeasurements
+            'stations' => $this->groupedStations($allMeasurements)
         ]);
     }
 
 
 // Group raw stations by name
-    function groupedStations($stations)
+    function groupedStations(array $stations)
     {
         $groups = [];
         foreach ($stations as $station) {
-            $name = $station->name;
-            if (!isset($stations[$name]))
+//            $name = $station->name;
+            $name = $station['name'];
+
+            if (!isset($groups[$name]))
                 $groups[$name] = [];
 
             $groups[$name][] = $station;
