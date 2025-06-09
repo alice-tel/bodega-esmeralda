@@ -32,6 +32,6 @@ Route::middleware('auth')->group(function () {
 
 });
 
-Route::get('/diagram', [DiagramsController::class, 'getDiagram'])->name('getDiagram');
+Route::get('/diagram/{stationName}', [DiagramsController::class, 'getDiagram'])->name('getDiagram');
 
 require __DIR__.'/auth.php';

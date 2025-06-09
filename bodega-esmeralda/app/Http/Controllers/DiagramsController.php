@@ -8,7 +8,7 @@ use Inertia\Inertia;
 
 class DiagramsController extends Controller
 {
-    public function getDiagram()
+    public function getDiagram($stationName)
     {
         //TODO Pak de juiste info aka neem de API over zodat die weg kan.
         $allMeasurements = [
@@ -61,7 +61,7 @@ class DiagramsController extends Controller
 
 //        return view('Diagrams');
         return Inertia::render('Diagrams', [
-            'stations' => $this->groupedStations($allMeasurements)
+            'stations' => $this->getSelectedStationData($this->groupedStations($allMeasurements), "100020")
         ]);
     }
 
@@ -81,6 +81,21 @@ class DiagramsController extends Controller
 
         }
         return $groups;
+    }
+
+    // from all the data only grab the data that is the same as the station name given in url
+    function getSelectedStationData(array $stations, $stationName)
+    {
+        $selectedData = [];
+        foreach ($stations as $station) {
+            $name = $station['name'];
+
+            if ($station['name'] === $stationName) {
+                $selectedData[] = $station;
+
+            }
+        }
+        return $selectedData;
     }
 }
 
