@@ -40,7 +40,7 @@ defineExpose({ focus: () => input.value.focus() });
         <input
             :id="id"
             :type="type"
-            class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+            class="block py-2.5 px-0 w-full text-sm text-font-100 bg-transparent border-t-0 border-l-0 border-r-0 border-b-2 border-gray-500 appearance-none focus:outline-none focus:ring-0 focus:border-details-100 peer"
             :placeholder="placeholder"
             :value="modelValue"
             @input="$emit('update:modelValue', $event.target.value)"
@@ -50,7 +50,7 @@ defineExpose({ focus: () => input.value.focus() });
         <label
             v-if="label"
             :for="id"
-            class="absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 peer-focus:text-blue-600"
+            class="absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 peer-focus:text-details-100"
         >
             {{ label }}
         </label>
