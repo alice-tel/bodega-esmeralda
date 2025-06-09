@@ -17,6 +17,16 @@ class DiagramsController extends Controller
                 "longitude" => 6.367,
                 "latitude" => 53.8,
                 "elevation" => 6,
+                "temperature" => 45,
+                "humidity" => 100,
+                "time" => "16:48:30",
+                "date" => "2025-05-31"
+            ],
+            [
+                "name" => "100020",
+                "longitude" => 6.367,
+                "latitude" => 53.8,
+                "elevation" => 6,
                 "temperature" => 15,
                 "humidity" => 20,
                 "time" => "16:59:30",
@@ -38,20 +48,20 @@ class DiagramsController extends Controller
                 "latitude" => 58.8,
                 "elevation" => 7,
                 "temperature" => 15,
-                "humidity" => 28,
+                "humidity" => 0,
                 "time" => "18:59:30",
                 "date" => "2025-05-31"
-            ],
-            [
-                "name" => "100060",
-                "longitude" => 6.4,
-                "latitude" => 53.9,
-                "elevation" => 2,
-                "temperature" => 12,
-                "humidity" => 30,
-                "time" => "16:59:30",
-                "date" => "2025-05-31"
             ]
+//            [
+//                "name" => "100060",
+//                "longitude" => 6.4,
+//                "latitude" => 53.9,
+//                "elevation" => 2,
+//                "temperature" => 12,
+//                "humidity" => 30,
+//                "time" => "16:59:30",
+//                "date" => "2025-05-31"
+//            ]
         ];
 
 //        return response()->json($allMeasurements);
@@ -61,9 +71,10 @@ class DiagramsController extends Controller
 
 //        return view('Diagrams');
         return Inertia::render('Diagrams', [
-            'stations' => $this->getSelectedStationData($this->groupedStations($allMeasurements), "100020")
+            'stations' => $this->filterDataForDiagramUsage($this->getSelectedStationData($allMeasurements, $stationName))
         ]);
     }
+
 
 
 // Group raw stations by name
@@ -90,12 +101,49 @@ class DiagramsController extends Controller
         foreach ($stations as $station) {
             $name = $station['name'];
 
-            if ($station['name'] === $stationName) {
+            if ($name === $stationName) {
                 $selectedData[] = $station;
 
             }
         }
         return $selectedData;
     }
+
+    function filterDataForDiagramUsage($data)
+    {
+        $hourlyData = [];
+
+        foreach ($data as $entry) {
+            $hour = substr($entry['time'], 0, 2);
+
+            if (!isset($hourlyData[$hour])) {
+                $hourlyData[$hour] = [
+                    'total_temp' => 0,
+                    'total_humidity' => 0,
+                    'count' => 0
+                ];
+            }
+
+            $hourlyData[$hour]['total_temp'] += $entry['temperature'];
+            $hourlyData[$hour]['total_humidity'] += $entry['humidity'];
+            $hourlyData[$hour]['count'] += 1;
+        }
+
+        $filteredData = [];
+
+        foreach ($hourlyData as $hour => $data) {
+            $filteredData[] = [
+                'hour' => $hour,
+                'temperature' => round($data['total_temp'] / $data['count'], 2),
+                'humidity' => round($data['total_humidity'] / $data['count'], 2),
+            ];
+        }
+
+        return $filteredData;
+    }
+
+
+
 }
+
 
