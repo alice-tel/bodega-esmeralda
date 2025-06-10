@@ -8,6 +8,17 @@ use Inertia\Inertia;
 
 class DiagramsController extends Controller
 {
+    private const HOURS_ARRAY = [ '00', '01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23' ];
+
+    private const temperaturesOptions = [
+        "responsive" => true,
+        "plugins" => [ "title" => [ "text" => "Temperatures", "display" => true ] ],
+    ];
+    private const humiditiesOptions = [
+        "responsive" => true,
+        "plugins" => [ "title" => [ "text" => "Humidity", "display" => true ] ],
+    ];
+
     public function getDiagram($stationName)
     {
         //TODO Pak de juiste info aka neem de API over zodat die weg kan.
@@ -64,14 +75,37 @@ class DiagramsController extends Controller
 //            ]
         ];
 
+
 //        return response()->json($allMeasurements);
 //        return $allMeasurements;
         //TODO Daarna stap gewijs de html leger en leger maken.
+        $stationData = $this->getSelectedStationData($allMeasurements, $stationName);
+        $dataPerHour = $this->combinePerHour($stationData);
+        $avergedDataPerHour = $this->avarigeData($dataPerHour);
+        $temperatures = $this->fillArray($this->getAttributeValues($avergedDataPerHour, "temperature"), 24);
+        $humidities = $this->fillArray($this->getAttributeValues($avergedDataPerHour, "humidity"), 24);
+
+
+        $temperaturesData = [
+            "labels" => self::HOURS_ARRAY,
+
+
+            "datasets" => [ [ "label" => 'Temperature', 'backgroundColor' => '#dd1100', "data" => $temperatures ] ]
+        ];
+        $humiditiesData = [
+            "labels" => self::HOURS_ARRAY,
+            "datasets" => [ [ "label" => 'Humidity', 'backgroundColor' => '#0011dd',"data" => $humidities ] ]
+        ];
+
 
 
 //        return view('Diagrams');
         return Inertia::render('Diagrams', [
-            'stations' => $this->filterDataForDiagramUsage($this->getSelectedStationData($allMeasurements, $stationName))
+            'temperaturesData' => $temperaturesData,
+            'temperaturesOptions' => self::temperaturesOptions,
+            'humiditiesData' => $humiditiesData,
+            'humiditiesOptions' => self::humiditiesOptions,
+            'stationName' => $stationName,
         ]);
     }
 
@@ -109,12 +143,13 @@ class DiagramsController extends Controller
         return $selectedData;
     }
 
-    function filterDataForDiagramUsage($data)
+    function combinePerHour($data): array
     {
         $hourlyData = [];
 
         foreach ($data as $entry) {
-            $hour = substr($entry['time'], 0, 2);
+            $time = $entry['time'];
+            $hour = substr($time, 0, 2);
 
             if (!isset($hourlyData[$hour])) {
                 $hourlyData[$hour] = [
@@ -128,20 +163,42 @@ class DiagramsController extends Controller
             $hourlyData[$hour]['total_humidity'] += $entry['humidity'];
             $hourlyData[$hour]['count'] += 1;
         }
+        return $hourlyData;
+    }
 
+    function avarigeData($hourlyData)
+    {
         $filteredData = [];
 
         foreach ($hourlyData as $hour => $data) {
+//            print_r($data);
             $filteredData[] = [
                 'hour' => $hour,
                 'temperature' => round($data['total_temp'] / $data['count'], 2),
                 'humidity' => round($data['total_humidity'] / $data['count'], 2),
             ];
         }
-
         return $filteredData;
     }
 
+    function getAttributeValues($data, $attribute): array
+    {
+        $attributeValues = [];
+        foreach ($data as $hourData){
+             $attributeValues[$hourData["hour"]] = $hourData[$attribute];
+        }
+        return $attributeValues;
+    }
+
+    function fillArray($data, $count):array
+    {
+        $values = [];
+        for ($i = 0; $i < $count; $i++) {
+            $value = $data[$i] ?? 0;
+            $values[] = $value;
+        }
+        return $values;
+    }
 
 
 }
