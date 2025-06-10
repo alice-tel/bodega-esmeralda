@@ -20,5 +20,3 @@ import { Link } from '@inertiajs/vue3';
     </div>
     
 </template>
-
-<!-- TODO: Work on the styling of the input fields, buttons and remake the login according to Bodega's design -->

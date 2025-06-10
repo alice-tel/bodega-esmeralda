@@ -5,9 +5,21 @@
     import DropdownLink from '@/Components/DropdownLink.vue';
     import NavLink from '@/Components/NavLink.vue';
     import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
-    import { Link } from '@inertiajs/vue3';
+    import { Link, router } from '@inertiajs/vue3';
 
     const showingNavigationDropdown = ref(false);
+
+    const navigateToProfile = () => {
+        window.location.href = route('profile.edit');
+    };
+
+    const navigateToDashboard = () => {
+        window.location.href = route('dashboard');
+    };
+
+    const navigateToMap = () => {
+        window.location.href = route('map');
+    };
 </script>
 
 <template>
@@ -30,11 +42,17 @@
                             <!-- Navigation Links -->
                             <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
 
-                                <NavLink :href="route('dashboard')" :active="route().current('dashboard')">
+                                <NavLink 
+                                    @click="navigateToDashboard" 
+                                    :active="route().current('dashboard')"
+                                >
                                     Dashboard
                                 </NavLink>
 
-                                <NavLink :href="route('map')" :active="route().current('map')">
+                                <NavLink 
+                                    @click="navigateToMap" 
+                                    :active="route().current('map')"
+                                >
                                     Map
                                 </NavLink>
 
@@ -58,7 +76,7 @@
 
                                     <template #content>
                                         <DropdownLink
-                                            :href="route('profile.edit')"
+                                            @click="navigateToProfile"
                                         >
                                             Profile
                                         </DropdownLink>
@@ -125,25 +143,22 @@
                             </div>
                         </div>
                         <ResponsiveNavLink
-                            :href="route('dashboard')"
+                            @click="navigateToDashboard"
                             :active="route().current('dashboard')"
                         >
                             Dashboard
                         </ResponsiveNavLink>
                         <ResponsiveNavLink
-                            :href="route('map')"
+                            @click="navigateToMap"
                             :active="route().current('map')"
                         >
                             Map
                         </ResponsiveNavLink>
-                        <ResponsiveNavLink
-                            :href="route('diagram')"
-                            :active="route().current('diagram')"
-                        >
-                            Graphs
-                        </ResponsiveNavLink>
 
-                        <ResponsiveNavLink :href="route('profile.edit')">
+                        <ResponsiveNavLink 
+                            @click="navigateToProfile"
+                            :active="route().current('profile.edit')"
+                        >
                             Profile
                         </ResponsiveNavLink>
 

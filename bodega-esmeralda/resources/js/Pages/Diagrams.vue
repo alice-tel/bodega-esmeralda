@@ -50,9 +50,9 @@ const props = defineProps({
                         title="humidity"
                         :options="props.humiditiesOptions"
                         :data="props.humiditiesData"/>
-
                 </div>
             </div>
         </div>
     </AuthenticatedLayout>
+    
 </template>
