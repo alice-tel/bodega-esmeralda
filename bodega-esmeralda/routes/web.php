@@ -15,10 +15,13 @@ Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
+<<<<<<< Updated upstream
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
+=======
+>>>>>>> Stashed changes
 Route::get('/map', function () {
     return Inertia::render('Welcome', [
         'canLogin' => Route::has('login'),
@@ -35,6 +38,12 @@ Route::middleware('auth')->group(function () {
     Route::get('/testapi', [ApiTestController::class, 'test']);
 });
 
+<<<<<<< Updated upstream
 Route::get('/diagram/{stationName}', [DiagramsController::class, 'getDiagram'])->name('getDiagram');
+=======
+Route::get('/diagram', function () {
+    return Inertia::render('Diagrams');
+})->middleware(['auth', 'verified'])->name('diagram');
+>>>>>>> Stashed changes
 
 require __DIR__.'/auth.php';
