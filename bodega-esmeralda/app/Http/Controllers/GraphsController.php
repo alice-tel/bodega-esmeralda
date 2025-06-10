@@ -6,7 +6,7 @@ use App\Models\TemperaturesMeasurements;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
-class DiagramsController extends Controller
+class GraphsController extends Controller
 {
     private const HOURS_ARRAY = [ '00', '01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23' ];
 
@@ -19,7 +19,7 @@ class DiagramsController extends Controller
         "plugins" => [ "title" => [ "text" => "Humidity", "display" => true ] ],
     ];
 
-    public function getDiagram($stationName)
+    public function getGraph($stationName)
     {
         //TODO Pak de juiste info aka neem de API over zodat die weg kan.
         $allMeasurements = [
@@ -100,7 +100,7 @@ class DiagramsController extends Controller
 
 
 //        return view('Diagrams');
-        return Inertia::render('Diagrams', [
+        return Inertia::render('Graph', [
             'temperaturesData' => $temperaturesData,
             'temperaturesOptions' => self::temperaturesOptions,
             'humiditiesData' => $humiditiesData,

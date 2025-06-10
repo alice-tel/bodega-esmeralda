@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\ApiTestController;
-use App\Http\Controllers\DiagramsController;
+use App\Http\Controllers\GraphsController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -11,8 +11,12 @@ Route::get('/', function () {
     return redirect()->route('login');
 });
 
+Route::get('/dashboard', function () {
+    return Inertia::render('Dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
+
 Route::get('/map', function () {
-    return Inertia::render('Welcome', [
+    return Inertia::render('Map', [
         'canLogin' => Route::has('login'),
         'canRegister' => Route::has('register'),
         'laravelVersion' => Application::VERSION,
@@ -20,18 +24,13 @@ Route::get('/map', function () {
     ]);
 })->middleware(['auth', 'verified'])->name('map');
 
-Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
-
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::get('/testapi', [ApiTestController::class, 'test']);
-
 });
 
-Route::get('/diagram/{stationName}', [DiagramsController::class, 'getDiagram'])->name('getDiagram');
+Route::get('/graph/{stationName}', [GraphsController::class, 'getGraph'])->name('getGraph');
 
 require __DIR__.'/auth.php';

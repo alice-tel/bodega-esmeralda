@@ -23,6 +23,9 @@ export default {
                 lg: '14px',
             },
             colors: {
+                background: {
+                    100: '#ffffff',
+                },
                 primary: {
                     100: '#eeebe3',
                 },
