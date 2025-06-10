@@ -4,7 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="15d652d6-bed3-465b-a2aa-b529febef78c" name="Changes" comment="Replace SVG logo with image tag for Bodega Esmeralda" />
+    <list default="true" id="15d652d6-bed3-465b-a2aa-b529febef78c" name="Changes" comment="Replace SVG logo with image tag for Bodega Esmeralda">
+      <change beforePath="$PROJECT_DIR$/bodega-esmeralda/app/Http/Controllers/Auth/AuthenticatedSessionController.php" beforeDir="false" afterPath="$PROJECT_DIR$/bodega-esmeralda/app/Http/Controllers/Auth/AuthenticatedSessionController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bodega-esmeralda/resources/js/Layouts/AuthenticatedLayout.vue" beforeDir="false" afterPath="$PROJECT_DIR$/bodega-esmeralda/resources/js/Layouts/AuthenticatedLayout.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bodega-esmeralda/resources/js/Layouts/GuestLayout.vue" beforeDir="false" afterPath="$PROJECT_DIR$/bodega-esmeralda/resources/js/Layouts/GuestLayout.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bodega-esmeralda/tailwind.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/bodega-esmeralda/tailwind.config.js" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -212,7 +217,11 @@
       <updated>1747826048701</updated>
       <workItem from="1747826052499" duration="3380000" />
       <workItem from="1748271755991" duration="19598000" />
+<<<<<<< Updated upstream
       <workItem from="1749553100525" duration="84000" />
+=======
+      <workItem from="1749202583479" duration="391000" />
+>>>>>>> Stashed changes
     </task>
     <task id="LOCAL-00001" summary="De SVG logo van Bodega Esmeralda (bodegas-esmeralda-las-mejoras-son-internas_3.svg). De logo staat in public/images">
       <option name="closed" value="true" />
