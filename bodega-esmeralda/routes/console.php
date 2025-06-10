@@ -15,5 +15,5 @@ Artisan::command('inspire', function () {
 //    $service->query(QueryService::HUMIDITY_ID);
 //})->daily()->at('03:00');
 
-Schedule::command(QueryTemperaturesAndSaveToDatabaseCommand::class)->hourlyAt(9)->runInBackground();
+Schedule::command(QueryTemperaturesAndSaveToDatabaseCommand::class)->hourlyAt(57)->runInBackground();
 
