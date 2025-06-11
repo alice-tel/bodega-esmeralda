@@ -3,6 +3,7 @@
 use App\Http\Controllers\ApiTestController;
 use App\Http\Controllers\GraphsController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\AdminController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -32,5 +33,12 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::get('/graph/{stationName}', [GraphsController::class, 'getGraph'])->name('getGraph');
+
+Route::middleware(['auth', \App\Http\Middleware\AdminMiddleware::class])->group(function () {
+    Route::get('/admin', [AdminController::class, 'index'])->name('admin.index');
+    Route::post('/admin/users', [AdminController::class, 'store'])->name('admin.users.store');
+    Route::put('/admin/users/{user}', [AdminController::class, 'update'])->name('admin.users.update');
+    Route::delete('/admin/users/{user}', [AdminController::class, 'destroy'])->name('admin.users.destroy');
+});
 
 require __DIR__.'/auth.php';
