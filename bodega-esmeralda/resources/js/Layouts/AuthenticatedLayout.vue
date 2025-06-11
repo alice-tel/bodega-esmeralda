@@ -1,6 +1,8 @@
 <script setup>
     import { ref } from 'vue';
     import ApplicationLogo from '@/Components/ApplicationLogo.vue';
+    import Dropdown from '@/Components/Dropdown.vue';
+    import DropdownLink from '@/Components/DropdownLink.vue';
     import NavLink from '@/Components/NavLink.vue';
     import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
     import { Link, router } from '@inertiajs/vue3';
@@ -99,9 +101,22 @@
                                             <span class="inline-flex rounded-md">
                                                 <button
                                                     type="button"
-                                                    class="inline-flex items-center rounded-md border-transparent bg-primary-100 px-3 py-2 text-sm font-medium leading-4 text-gray-500 transition duration-150 ease-in-out hover:text-gray-700 focus:outline-none"
+                                                    class="inline-flex items-center rounded-md border-transparent bg-primary-100 px-3 py-2 text-sm font-medium leading-4 text-font-100 transition duration-150 ease-in-out hover:text-gray-700 focus:outline-none"
                                                 >
                                                     {{ $page.props.auth.user.name }}
+
+                                                    <svg
+                                                        class="-me-0.5 ms-2 h-4 w-4"
+                                                        xmlns="http://www.w3.org/2000/svg"
+                                                        viewBox="0 0 20 20"
+                                                        fill="currentColor"
+                                                    >
+                                                        <path
+                                                            fill-rule="evenodd"
+                                                            d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                                                            clip-rule="evenodd"
+                                                        />
+                                                    </svg>
                                                 </button>
                                             </span>
                                         </template>
@@ -170,8 +185,8 @@
                     class="sm:hidden"
                 >
                     <div class="space-y-1 pb-3 pt-2">
-                        <div class="px-4 pb-2">
-                            <div class="text-base font-medium text-gray-800">
+                        <div class="px-4">
+                            <div class="text-base font-medium text-font-100">
                                 {{ $page.props.auth.user.name }}
                             </div>
                         </div>
