@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\TemperaturesMeasurements;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Inertia\Inertia;
 
 class GraphsController extends Controller
@@ -22,62 +23,8 @@ class GraphsController extends Controller
     public function getGraph($stationName)
     {
         //TODO Pak de juiste info aka neem de API over zodat die weg kan.
-        $allMeasurements = [
-            [
-                "name" => "100020",
-                "longitude" => 6.367,
-                "latitude" => 53.8,
-                "elevation" => 6,
-                "temperature" => 45,
-                "humidity" => 100,
-                "time" => "16:48:30",
-                "date" => "2025-05-31"
-            ],
-            [
-                "name" => "100020",
-                "longitude" => 6.367,
-                "latitude" => 53.8,
-                "elevation" => 6,
-                "temperature" => 15,
-                "humidity" => 20,
-                "time" => "16:59:30",
-                "date" => "2025-05-31"
-            ],
-            [
-                "name" => "100040",
-                "longitude" => 6.35,
-                "latitude" => 54.167,
-                "elevation" => 3,
-                "temperature" => -7,
-                "humidity" => 10,
-                "time" => "16:59:30",
-                "date" => "2025-05-31"
-            ],
-            [
-                "name" => "100020",
-                "longitude" => 5.367,
-                "latitude" => 58.8,
-                "elevation" => 7,
-                "temperature" => 15,
-                "humidity" => 0,
-                "time" => "18:59:30",
-                "date" => "2025-05-31"
-            ]
-//            [
-//                "name" => "100060",
-//                "longitude" => 6.4,
-//                "latitude" => 53.9,
-//                "elevation" => 2,
-//                "temperature" => 12,
-//                "humidity" => 30,
-//                "time" => "16:59:30",
-//                "date" => "2025-05-31"
-//            ]
-        ];
-
-
-//        return response()->json($allMeasurements);
-//        return $allMeasurements;
+        $allMeasurements = TemperaturesMeasurements::getTemperaturesMeasurementsOfTodayAndStationArray($stationName);
+        Log::info(print_r($allMeasurements, true));
         //TODO Daarna stap gewijs de html leger en leger maken.
         $stationData = $this->getSelectedStationData($allMeasurements, $stationName);
         $dataPerHour = $this->combinePerHour($stationData);
@@ -185,7 +132,7 @@ class GraphsController extends Controller
     {
         $attributeValues = [];
         foreach ($data as $hourData){
-             $attributeValues[$hourData["hour"]] = $hourData[$attribute];
+             $attributeValues[(int)$hourData["hour"]] = $hourData[$attribute];
         }
         return $attributeValues;
     }

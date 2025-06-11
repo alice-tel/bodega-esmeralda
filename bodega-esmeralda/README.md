@@ -24,6 +24,8 @@ Running this will start the running of scheduled commands.
 Running this will query temperatures of this hour from IWA and save them to Bodega database.
 * php artisan query-save:temperatures
 
+### Installs
+* npm i vue-chartjs chart.js
 
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 

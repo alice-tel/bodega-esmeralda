@@ -13,12 +13,12 @@ class ApiTestController extends Controller
 
     public function test()
     {
-        $this->queryer->login();
-        $result = $this->queryer->queryTemperaturesOfCurrentDayAndHour();
-
 //        $this->queryer->login();
-//        $result = $this->queryer->query(10);
-        $this->queryer->logout();
-        return $result;
+//        $result = $this->queryer->queryTemperaturesOfCurrentDayAndHour();
+//
+////        $this->queryer->login();
+////        $result = $this->queryer->query(10);
+//        $this->queryer->logout();
+        return print_r(TemperaturesMeasurements::getTemperaturesMeasurementsOfTodayAndStation("507270"), true);
     }
 }

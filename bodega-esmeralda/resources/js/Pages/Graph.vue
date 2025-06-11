@@ -22,14 +22,14 @@ const props = defineProps({
 </script>
 
 <template>
-    <Head title="{{ stationName }}" />
+    <Head title="Station: {{ stationName }}" />
 
     <AuthenticatedLayout>
         <template #header>
             <h2
                 class="text-xl font-semibold leading-tight text-gray-800"
             >
-                {{ stationName }}
+                Station: {{ stationName }}
             </h2>
         </template>
 
@@ -54,5 +54,5 @@ const props = defineProps({
             </div>
         </div>
     </AuthenticatedLayout>
-    
+
 </template>

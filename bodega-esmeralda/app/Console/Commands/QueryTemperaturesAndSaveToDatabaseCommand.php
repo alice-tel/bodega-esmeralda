@@ -9,11 +9,18 @@ use Illuminate\Support\Facades\Log;
 
 class QueryTemperaturesAndSaveToDatabaseCommand extends Command
 {
-    protected $signature = 'query-save:temperatures';
+    protected $signature = 'query-save:temperatures {time}';
+
 
     public function handle(QueryService $service){
         $service->login();
-        $response = $service->queryTemperaturesOfCurrentDayAndHour();
+        $timeArg = $this->argument('time');
+        $response = null;
+        if ($timeArg != null || $timeArg != '' ) {
+            $response = $service->queryTemperaturesOfCurrentDayWithHour($timeArg);
+        } else {
+            $response = $service->queryTemperaturesOfCurrentDayAndHour();
+        }
         $measurements = json_decode($response);
         TemperaturesMeasurements::saveAsTempMeasurements($measurements);
     }
