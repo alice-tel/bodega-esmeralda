@@ -5,7 +5,7 @@ import { Link } from '@inertiajs/vue3';
 
 <template>
 
-    <div class="flex min-h-screen flex-col items-center bg-background-100 pt-6 sm:justify-center sm:pt-0">
+    <div class="flex min-h-screen flex-col items-center bg-primary-100 justify-center">
 
         <div>
             <Link href="/">
@@ -13,7 +13,7 @@ import { Link } from '@inertiajs/vue3';
             </Link>
         </div>
 
-        <div class="mt-6 w-full overflow-hidden bg-primary-100 px-6 py-4 shadow-md sm:max-w-md sm:rounded-lg">
+        <div class="max-w-xs mx-auto overflow-hidden bg-background-100 px-6 py-4 shadow-md rounded-lg">
             <slot/>
         </div>
 
