@@ -1,7 +1,6 @@
 <script setup>
 import { Head, Link } from '@inertiajs/vue3';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import { ref, onMounted } from 'vue';
 
 defineProps({
     canLogin: {
@@ -18,19 +17,6 @@ defineProps({
         type: String,
         required: true,
     },
-});
-
-const showWelcome = ref(false);
-
-onMounted(() => {
-    if (!localStorage.getItem('welcomeShown')) {
-        showWelcome.value = true;
-        localStorage.setItem('welcomeShown', 'true');
-        
-        setTimeout(() => {
-            showWelcome.value = false;
-        }, 3000);
-    }
 });
 
 function handleImageError() {
@@ -51,21 +37,9 @@ function handleImageError() {
             </h2>
         </template>
 
-        <template v-if="showWelcome">
-            <div class="py-3">
-                <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
-                    <div class="overflow-hidden bg-background-100 shadow-sm sm:rounded-lg">
-                        <div class="p-6 text-gray-900">
-                            You're logged in!
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </template>
-
         <div class="py-4">
-            <div class="mx-auto max-w-7xl space-y-6 sm:px-6 lg:px-8">
-                <div class="bg-white p-4 shadow sm:rounded-lg sm:p-8">
+            <div class="mx-auto max-w-7xl space-y-6 px-4 sm:px-6 lg:px-8">
+                <div class="bg-background-100 shadow rounded-lg p-4 sm:p-8">
                     Map content here
                 </div>
             </div>

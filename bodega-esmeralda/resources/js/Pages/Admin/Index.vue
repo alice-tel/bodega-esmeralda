@@ -1,6 +1,6 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import { Head, useForm } from '@inertiajs/vue3';
+import { Head, useForm, router } from '@inertiajs/vue3';
 import { ref } from 'vue';
 import AddUserForm from '@/Pages/Admin/Partials/AddUserForm.vue';
 import EditUserForm from '@/Pages/Admin/Partials/EditUserForm.vue';
@@ -12,61 +12,24 @@ const props = defineProps({
     }
 });
 
-const form = useForm({
-    name: '',
-    email: '',
-    password: '',
-    password_confirmation: '',
-    role: 'user'
-});
-
-const editForm = useForm({
-    id: null,
-    name: '',
-    email: '',
-    role: 'user'
-});
-
 const editingUser = ref(null);
-
-const submit = () => {
-    form.post(route('admin.users.store'), {
-        onSuccess: () => {
-            form.reset();
-        },
-    });
-};
 
 const editUser = (user) => {
     editingUser.value = user;
-    editForm.id = user.id;
-    editForm.name = user.name;
-    editForm.email = user.email;
-    editForm.role = user.role;
-};
-
-const updateUser = () => {
-    editForm.put(route('admin.users.update', editForm.id), {
-        onSuccess: () => {
-            editingUser.value = null;
-            editForm.reset();
-        },
-    });
 };
 
 const cancelEdit = () => {
     editingUser.value = null;
-    editForm.reset();
 };
 
 const deleteUser = (userId) => {
     if (confirm('Are you sure you want to delete this user?')) {
-        form.delete(route('admin.users.destroy', userId));
+        router.delete(route('admin.users.destroy', userId));
     }
 };
 
 const toggleRole = (user) => {
-    form.put(route('admin.users.update', user.id), {
+    router.put(route('admin.users.update', user.id), {
         role: user.role === 'admin' ? 'user' : 'admin'
     });
 };
@@ -82,7 +45,7 @@ const toggleRole = (user) => {
             </h2>
         </template>
 
-        <div class="py-12">
+        <div class="py-4">
             <div class="mx-auto max-w-7xl space-y-6 px-4 sm:px-6 lg:px-8">
                 <!-- Users Table Section -->
                 <div class="overflow-hidden bg-background-100 shadow-sm rounded-lg">
@@ -136,6 +99,7 @@ const toggleRole = (user) => {
                                                     Edit
                                                 </button>
                                                 <button
+                                                    v-if="user.role !== 'admin'"
                                                     @click="toggleRole(user)"
                                                     class="text-primary-600 hover:text-primary-900"
                                                 >

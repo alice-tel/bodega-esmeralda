@@ -32,7 +32,7 @@ const submit = () => {
             if (user && user.role === 'admin') {
                 window.location.href = route('admin.index');
             } else {
-                window.location.href = route('map');
+                window.location.href = route('dashboard');
             }
         }
     });

@@ -28,7 +28,7 @@
 
 <template>
     <div>
-        <div class="min-h-screen bg-primary-100">
+        <div class="min-h-screen bg-primary-100 flex flex-col">
 
             <nav class="border-b border-font-100 bg-primary-100">
                 <!-- Primary Navigation Menu -->
@@ -250,7 +250,7 @@
             </header>
 
             <!-- Page Content -->
-            <main>
+            <main class="flex-1">
                 <slot/>
             </main>
         </div>
