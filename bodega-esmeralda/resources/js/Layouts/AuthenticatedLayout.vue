@@ -186,45 +186,58 @@
                 >
                     <div class="space-y-1 pb-3 pt-2">
                         <div class="px-4">
-                            <div class="text-base font-medium text-font-100">
+                            <div class="text-lg font-bold text-font-100 -ml-1">
                                 {{ $page.props.auth.user.name }}
                             </div>
                         </div>
-                        <ResponsiveNavLink
-                            @click="navigateToDashboard"
-                            :active="route().current('dashboard')"
-                        >
-                            Dashboard
-                        </ResponsiveNavLink>
-                        <ResponsiveNavLink
-                            @click="navigateToMap"
-                            :active="route().current('map')"
-                        >
-                            Map
-                        </ResponsiveNavLink>
-
-                        <ResponsiveNavLink 
-                            @click="navigateToProfile"
-                            :active="route().current('profile.edit')"
-                        >
-                            Profile
-                        </ResponsiveNavLink>
-
-                        <ResponsiveNavLink
-                            v-if="$page.props.auth.user.role === 'admin'"
-                            @click="navigateToAdmin"
-                            :active="route().current('admin.index')"
-                        >
-                            Admin
-                        </ResponsiveNavLink>
-
-                        <ResponsiveNavLink
-                            :href="route('logout')"
-                            method="post"
-                            as="button"
-                        >
-                            Log Out
-                        </ResponsiveNavLink>
+                        <template v-if="$page.props.auth.user.role === 'admin'">
+                            <ResponsiveNavLink
+                                @click="navigateToAdmin"
+                                :active="route().current('admin.index')"
+                            >
+                                Admin Dashbaord
+                            </ResponsiveNavLink>
+                            <ResponsiveNavLink 
+                                @click="navigateToProfile"
+                                :active="route().current('profile.edit')"
+                            >
+                                Profile
+                            </ResponsiveNavLink>
+                            <ResponsiveNavLink
+                                :href="route('logout')"
+                                method="post"
+                                as="button"
+                            >
+                                Log Out
+                            </ResponsiveNavLink>
+                        </template>
+                        <template v-else>
+                            <ResponsiveNavLink
+                                @click="navigateToDashboard"
+                                :active="route().current('dashboard')"
+                            >
+                                Dashboard
+                            </ResponsiveNavLink>
+                            <ResponsiveNavLink
+                                @click="navigateToMap"
+                                :active="route().current('map')"
+                            >
+                                Map
+                            </ResponsiveNavLink>
+                            <ResponsiveNavLink 
+                                @click="navigateToProfile"
+                                :active="route().current('profile.edit')"
+                            >
+                                Profile
+                            </ResponsiveNavLink>
+                            <ResponsiveNavLink
+                                :href="route('logout')"
+                                method="post"
+                                as="button"
+                            >
+                                Log Out
+                            </ResponsiveNavLink>
+                        </template>
                     </div>
                 </div>
             </nav>
