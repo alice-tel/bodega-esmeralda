@@ -2,8 +2,8 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head, useForm } from '@inertiajs/vue3';
 import { ref } from 'vue';
-import TextInput from '@/Components/TextInput.vue';
-import SelectInput from '@/Components/SelectInput.vue';
+import AddUserForm from '@/Pages/Admin/Partials/AddUserForm.vue';
+import EditUserForm from '@/Pages/Admin/Partials/EditUserForm.vue';
 
 const props = defineProps({
     users: {
@@ -158,127 +158,15 @@ const toggleRole = (user) => {
 
                 <!-- Edit User Form Section -->
                 <div v-if="editingUser" class="bg-white p-4 shadow rounded-lg sm:p-8 mb-6">
-                    <h3 class="text-lg font-medium text-font-900 mb-6">Edit User</h3>
-                    <form @submit.prevent="updateUser" class="space-y-4">
-                        <div>
-                            <TextInput
-                                id="edit_name"
-                                type="text"
-                                class="mt-1 block w-full"
-                                v-model="editForm.name"
-                                required
-                                label="Name"
-                            />
-                        </div>
-
-                        <div>
-                            <TextInput
-                                id="edit_email"
-                                type="email"
-                                class="mt-1 block w-full"
-                                v-model="editForm.email"
-                                required
-                                label="Email"
-                            />
-                        </div>
-
-                        <div>
-                            <SelectInput
-                                id="edit_role"
-                                class="mt-1 block w-full"
-                                v-model="editForm.role"
-                                :options="[{ label: 'User', value: 'user' }, { label: 'Admin', value: 'admin' }]"
-                                label="Role"
-                            />
-                        </div>
-
-                        <div class="flex justify-end gap-x-3">
-                            <button
-                                type="button"
-                                class="flex items-center justify-center h-12 w-auto rounded-md border border-gray-300 bg-white px-4 py-2 text-base font-medium text-red-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2"
-                                @click="cancelEdit"
-                            >
-                                Cancel
-                            </button>
-                            <button
-                                type="submit"
-                                class="flex items-center justify-center h-12 w-auto rounded-md border border-transparent bg-primary-600 px-4 py-2 text-base font-medium text-red-700 shadow-sm hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2"
-                                :disabled="editForm.processing"
-                            >
-                                Update User
-                            </button>
-                        </div>
-                    </form>
+                    <EditUserForm
+                        :user="editingUser"
+                        :cancelEdit="cancelEdit"
+                    />
                 </div>
 
                 <!-- Add User Form Section -->
                 <div class="bg-white p-4 shadow rounded-lg sm:p-8">
-                    <h3 class="text-lg font-medium text-font-900 mb-6">Add New User</h3>
-                    <form @submit.prevent="submit" class="space-y-4">
-                        <div>
-                            <TextInput
-                                id="name"
-                                type="text"
-                                class="mt-1 block w-full"
-                                v-model="form.name"
-                                required
-                                label="Name"
-                            />
-                        </div>
-
-                        <div>
-                            <TextInput
-                                id="email"
-                                type="email"
-                                class="mt-1 block w-full"
-                                v-model="form.email"
-                                required
-                                label="Email"
-                            />
-                        </div>
-
-                        <div>
-                            <TextInput
-                                id="password"
-                                type="password"
-                                class="mt-1 block w-full"
-                                v-model="form.password"
-                                required
-                                label="Password"
-                            />
-                        </div>
-
-                        <div>
-                            <TextInput
-                                id="password_confirmation"
-                                type="password"
-                                class="mt-1 block w-full"
-                                v-model="form.password_confirmation"
-                                required
-                                label="Confirm Password"
-                            />
-                        </div>
-
-                        <div>
-                            <SelectInput
-                                id="role"
-                                class="mt-1 block w-full"
-                                v-model="form.role"
-                                :options="[{ label: 'User', value: 'user' }, { label: 'Admin', value: 'admin' }]"
-                                label="Role"
-                            />
-                        </div>
-
-                        <div class="flex justify-end">
-                            <button
-                                type="submit"
-                                class="flex items-center justify-center h-12 w-auto rounded-md border border-transparent bg-primary-600 px-4 py-2 text-base font-medium text-red-700 shadow-sm hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2"
-                                :disabled="form.processing"
-                            >
-                                Add User
-                            </button>
-                        </div>
-                    </form>
+                    <AddUserForm />
                 </div>
             </div>
         </div>
