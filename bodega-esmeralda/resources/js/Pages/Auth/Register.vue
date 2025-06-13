@@ -5,6 +5,7 @@ import InputLabel from '@/Components/InputLabel.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
 import { Head, Link, useForm, router } from '@inertiajs/vue3';
+import TextInputSuffix from "@/Components/TextInputSuffix.vue";
 
 const form = useForm({
     name: '',
@@ -46,7 +47,7 @@ const submit = () => {
             </div>
 
             <div class="mt-4">
-                <TextInput
+                <TextInputSuffix
                     id="email"
                     type="email"
                     class="mt-1 block w-full"
@@ -54,6 +55,7 @@ const submit = () => {
                     label="Email"
                     required
                     autocomplete="username"
+                    suffix="@bodega-esmeralda.ar"
                 />
 
                 <InputError class="mt-2" :message="form.errors.email" />

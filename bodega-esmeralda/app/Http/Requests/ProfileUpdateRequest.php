@@ -22,6 +22,7 @@ class ProfileUpdateRequest extends FormRequest
                 'string',
                 'lowercase',
                 'email',
+                'ends_with:@bodega-esmeralda.ar',
                 'max:255',
                 Rule::unique(User::class)->ignore($this->user()->id),
             ],

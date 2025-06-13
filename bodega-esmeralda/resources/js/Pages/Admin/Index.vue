@@ -4,6 +4,7 @@ import { Head, useForm } from '@inertiajs/vue3';
 import { ref } from 'vue';
 import TextInput from '@/Components/TextInput.vue';
 import SelectInput from '@/Components/SelectInput.vue';
+import TextInputSuffix from "@/Components/TextInputSuffix.vue";
 
 const props = defineProps({
     users: {
@@ -172,13 +173,14 @@ const toggleRole = (user) => {
                         </div>
 
                         <div>
-                            <TextInput
+                            <TextInputSuffix
                                 id="edit_email"
                                 type="email"
                                 class="mt-1 block w-full"
                                 v-model="editForm.email"
                                 required
                                 label="Email"
+                                suffix="@bodega-esmeralda.ar"
                             />
                         </div>
 
@@ -227,13 +229,14 @@ const toggleRole = (user) => {
                         </div>
 
                         <div>
-                            <TextInput
+                            <TextInputSuffix
                                 id="email"
                                 type="email"
                                 class="mt-1 block w-full"
                                 v-model="form.email"
                                 required
                                 label="Email"
+                                suffix="@bodega-esmeralda.ar"
                             />
                         </div>
 
@@ -283,4 +286,4 @@ const toggleRole = (user) => {
             </div>
         </div>
     </AuthenticatedLayout>
-</template> 
+</template>

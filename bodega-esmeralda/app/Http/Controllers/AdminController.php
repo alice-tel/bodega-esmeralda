@@ -20,7 +20,7 @@ class AdminController extends Controller
     {
         $validated = $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
+            'email' => 'required|string|email|max:255|ends_with:@bodega-esmeralda.ar|unique:users',
             'password' => 'required|string|min:8|confirmed',
             'role' => 'required|in:user,admin'
         ]);
@@ -38,7 +38,8 @@ class AdminController extends Controller
     public function update(Request $request, User $user)
     {
         $validated = $request->validate([
-            'role' => 'required|in:user,admin'
+            'email' => 'required|string|email|max:255|ends_with:@bodega-esmeralda.ar|unique:users',
+            'role' => 'required|in:user,admin',
         ]);
 
         $user->update($validated);
@@ -56,4 +57,4 @@ class AdminController extends Controller
 
         return redirect()->back();
     }
-} 
+}
