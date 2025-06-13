@@ -121,7 +121,7 @@ const toggleRole = (user) => {
                 </div>
 
                 <!-- Edit User Form Section -->
-                <div v-if="editingUser" class="bg-white p-4 shadow rounded-lg sm:p-8 mb-6">
+                <div v-if="editingUser" class="bg-background-100 p-4 shadow rounded-lg sm:p-8 mb-6">
                     <EditUserForm
                         :user="editingUser"
                         :cancelEdit="cancelEdit"
@@ -129,7 +129,7 @@ const toggleRole = (user) => {
                 </div>
 
                 <!-- Add User Form Section -->
-                <div class="bg-white p-4 shadow rounded-lg sm:p-8">
+                <div class="bg-background-100 p-4 shadow rounded-lg sm:p-8">
                     <AddUserForm />
                 </div>
             </div>

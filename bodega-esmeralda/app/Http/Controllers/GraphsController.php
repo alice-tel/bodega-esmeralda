@@ -13,11 +13,188 @@ class GraphsController extends Controller
 
     private const temperaturesOptions = [
         "responsive" => true,
-        "plugins" => [ "title" => [ "text" => "Temperatures", "display" => true ] ],
+        "maintainAspectRatio" => false,
+        "plugins" => [
+            "title" => [
+                "text" => "Temperatures",
+                "display" => false,
+                "font" => [
+                    "size" => 12,
+                    "weight" => "bold"
+                ],
+                "align" => "start",
+                "padding" => [
+                    "top" => 10,
+                    "left" => 10
+                ]
+            ],
+            "legend" => [
+                "position" => "top",
+                "labels" => [
+                    "font" => [
+                        "size" => 12
+                    ]
+                ]
+            ],
+            "tooltip" => [
+                "backgroundColor" => "#2b394E",
+                "titleColor" => "#ffffff",
+                "bodyColor" => "#ffffff",
+                "padding" => 10,
+                "cornerRadius" => 4
+            ]
+        ],
+        "scales" => [
+            "y" => [
+                "beginAtZero" => true,
+                "title" => [
+                    "display" => true,
+                    "text" => "Temperature (°C)",
+                    "font" => [
+                        "size" => 12
+                    ]
+                ],
+                "ticks" => [
+                    "font" => [
+                        "size" => 12
+                    ]
+                ],
+                "grid" => [
+                    "display" => false
+                ]
+            ],
+            "x" => [
+                "title" => [
+                    "display" => true,
+                    "text" => "Hour",
+                    "font" => [
+                        "size" => 12
+                    ]
+                ],
+                "ticks" => [
+                    "font" => [
+                        "size" => 12
+                    ]
+                ],
+                "grid" => [
+                    "display" => false
+                ]
+            ]
+        ],
+        "elements" => [
+            "bar" => [
+                "borderRadius" => 8,
+                "borderWidth" => 2,
+                "borderColor" => "#CF1F25"
+            ]
+        ],
+        "animation" => [
+            "duration" => 2000,
+            "easing" => "easeInOutQuart",
+            "onProgress" => "function(animation) {
+                animation.chart.update('none');
+            }",
+            "onComplete" => "function(animation) {
+                animation.chart.update('none');
+            }"
+        ],
+        "hover" => [
+            "animationDuration" => 400
+        ],
+        "responsiveAnimationDuration" => 500
     ];
+    
     private const humiditiesOptions = [
         "responsive" => true,
-        "plugins" => [ "title" => [ "text" => "Humidity", "display" => true ] ],
+        "maintainAspectRatio" => false,
+        "plugins" => [
+            "title" => [
+                "text" => "Humidity",
+                "display" => false,
+                "font" => [
+                    "size" => 12,
+                    "weight" => "bold"
+                ],
+                "align" => "start",
+                "padding" => [
+                    "top" => 10,
+                    "left" => 10
+                ]
+            ],
+            "legend" => [
+                "position" => "top",
+                "labels" => [
+                    "font" => [
+                        "size" => 12
+                    ]
+                ]
+            ],
+            "tooltip" => [
+                "backgroundColor" => "#2b394E",
+                "titleColor" => "#ffffff",
+                "bodyColor" => "#ffffff",
+                "padding" => 10,
+                "cornerRadius" => 4
+            ]
+        ],
+        "scales" => [
+            "y" => [
+                "beginAtZero" => true,
+                "title" => [
+                    "display" => true,
+                    "text" => "Humidity (%)",
+                    "font" => [
+                        "size" => 12
+                    ]
+                ],
+                "ticks" => [
+                    "font" => [
+                        "size" => 12
+                    ]
+                ],
+                "grid" => [
+                    "display" => false
+                ]
+            ],
+            "x" => [
+                "title" => [
+                    "display" => true,
+                    "text" => "Hour",
+                    "font" => [
+                        "size" => 12
+                    ]
+                ],
+                "ticks" => [
+                    "font" => [
+                        "size" => 12
+                    ]
+                ],
+                "grid" => [
+                    "display" => false
+                ]
+            ]
+        ],
+        "elements" => [
+            "bar" => [
+                "borderRadius" => 8,
+                "borderWidth" => 2,
+                "borderColor" => "#2b394E"
+            ]
+        ],
+        "animation" => [
+            "duration" => 2000,
+            "easing" => "easeInOutQuart",
+            "onProgress" => "function(animation) {
+                animation.chart.update('none');
+            }",
+            "onComplete" => "function(animation) {
+                animation.chart.update('none');
+            }"
+        ],
+        "hover" => [
+            "animationDuration" => 400
+        ],
+        "responsiveAnimationDuration" => 500
     ];
 
     public function getGraph($stationName)
@@ -32,21 +209,28 @@ class GraphsController extends Controller
         $temperatures = $this->fillArray($this->getAttributeValues($avergedDataPerHour, "temperature"), 24);
         $humidities = $this->fillArray($this->getAttributeValues($avergedDataPerHour, "humidity"), 24);
 
-
         $temperaturesData = [
             "labels" => self::HOURS_ARRAY,
-
-
-            "datasets" => [ [ "label" => 'Temperature', 'backgroundColor' => '#dd1100', "data" => $temperatures ] ]
+            "datasets" => [ 
+                [ 
+                    "label" => 'Temperature', 
+                    'backgroundColor' => '#CF1F25', 
+                    "data" => $temperatures 
+                ] 
+            ]
         ];
+
         $humiditiesData = [
             "labels" => self::HOURS_ARRAY,
-            "datasets" => [ [ "label" => 'Humidity', 'backgroundColor' => '#0011dd',"data" => $humidities ] ]
+            "datasets" => [ 
+                [ 
+                    "label" => 'Humidity', 
+                    'backgroundColor' => '#2b394E',
+                    "data" => $humidities 
+                ] 
+            ]
         ];
 
-
-
-//        return view('Diagrams');
         return Inertia::render('Graph', [
             'temperaturesData' => $temperaturesData,
             'temperaturesOptions' => self::temperaturesOptions,

@@ -35,21 +35,25 @@ const props = defineProps({
 
         <div class="py-4">
             <div
-                class="mx-auto max-w-7xl space-y-6 px-4 sm:px-6 lg:px-8"
+                class="mx-auto max-w-7xl space-y-6 px-2 sm:px-4 lg:px-8"
             >
-                <div class="bg-white p-4 shadow rounded-lg sm:p-8">
-                    <Bar
-                        id="temperatures"
-                        :options="props.temperaturesOptions"
-                        :data="props.temperaturesData"/>
+                <div class="bg-white p-2 sm:p-4 md:p-6 lg:p-8 shadow rounded-lg">
+                    <div class="h-[300px] sm:h-[400px] md:h-[500px] lg:h-[600px]">
+                        <Bar
+                            id="temperatures"
+                            :options="props.temperaturesOptions"
+                            :data="props.temperaturesData"/>
+                    </div>
                 </div>
 
-                <div class="bg-white p-4 shadow rounded-lg sm:p-8">
-                    <Bar
-                        id="humidity"
-                        title="humidity"
-                        :options="props.humiditiesOptions"
-                        :data="props.humiditiesData"/>
+                <div class="bg-white p-2 sm:p-4 md:p-6 lg:p-8 shadow rounded-lg">
+                    <div class="h-[300px] sm:h-[400px] md:h-[500px] lg:h-[600px]">
+                        <Bar
+                            id="humidity"
+                            title="humidity"
+                            :options="props.humiditiesOptions"
+                            :data="props.humiditiesData"/>
+                    </div>
                 </div>
             </div>
         </div>
