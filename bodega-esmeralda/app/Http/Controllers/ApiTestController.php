@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\HumidityMeasurements;
 use App\Models\TemperaturesMeasurements;
 use App\Services\QueryService;
 
@@ -19,6 +20,7 @@ class ApiTestController extends Controller
 ////        $this->queryer->login();
 ////        $result = $this->queryer->query(10);
 //        $this->queryer->logout();
-        return print_r(TemperaturesMeasurements::getTemperaturesMeasurementsOfTodayAndStation("507270"), true);
+        return print_r(HumidityMeasurements::getHumidityAverageOfStationsOfToday(), true);
+//        return print_r(HumidityMeasurements::getHumidityAverageOfStations(), true);
     }
 }
