@@ -23,7 +23,7 @@ class UserSeeder extends Seeder
         ]);
         User::create([
             'name' => 'Admin User',
-            'email' => 'admin@bodega-esmeralda.ar',
+            'email' => 'admin@bodegas-esmeralda.ar',
             'password' => Hash::make('password'),
             'email_verified_at' => now(),
             'role' => 'admin', // Assuming your User model has a role field
@@ -39,7 +39,7 @@ class UserSeeder extends Seeder
         ]);
         User::create([
             'name' => 'Test User',
-            'email' => 'test@bodega-esmeralda.ar',
+            'email' => 'test@bodegas-esmeralda.ar',
             'password' => Hash::make('password'),
             'email_verified_at' => now(),
             'role' => 'user', // Assuming your User model has a role field

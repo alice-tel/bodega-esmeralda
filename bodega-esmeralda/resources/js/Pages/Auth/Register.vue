@@ -55,7 +55,7 @@ const submit = () => {
                     label="Email"
                     required
                     autocomplete="username"
-                    suffix="@bodega-esmeralda.ar"
+                    suffix="@bodegas-esmeralda.ar"
                 />
 
                 <InputError class="mt-2" :message="form.errors.email" />

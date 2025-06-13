@@ -180,7 +180,7 @@ const toggleRole = (user) => {
                                 v-model="editForm.email"
                                 required
                                 label="Email"
-                                suffix="@bodega-esmeralda.ar"
+                                suffix="@bodegas-esmeralda.ar"
                             />
                         </div>
 
@@ -236,7 +236,7 @@ const toggleRole = (user) => {
                                 v-model="form.email"
                                 required
                                 label="Email"
-                                suffix="@bodega-esmeralda.ar"
+                                suffix="@bodegas-esmeralda.ar"
                             />
                         </div>
 
