@@ -18,6 +18,7 @@ class QueryService
     public const TEMPERATURE_ID = 10;
 
     public const TEMPERATURE_HOUR_QUERY_ID = 10;
+    public const HUMIDITY_HOUR_QUERY_ID = 11;
 
     public function __construct(
         private string $email = 'cm444@test.com',
@@ -135,6 +136,14 @@ class QueryService
 
         $queries = ["date" => $date, "time" => $time];
         return $this->query(self::TEMPERATURE_HOUR_QUERY_ID, $queries);
+
+    }
+    public function queryHumidityOfCurrentDay()
+    {
+        $date = now()->toDateString();
+        $queries = ["date" => $date];
+
+        return $this->query(self::HUMIDITY_HOUR_QUERY_ID, $queries);
 
     }
 

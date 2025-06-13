@@ -24,6 +24,9 @@ Running this will start the running of scheduled commands.
 Running this will query temperatures of this hour from IWA and save them to Bodega database.
 * php artisan query-save:temperatures
 
+Running this will query humidities of this date from IWA and save them to Bodega database.
+* php artisan query-save:humidity
+
 ### Installs
 * npm i vue-chartjs chart.js
 
