@@ -32,8 +32,8 @@ const submit = () => {
 <template>
     <section>
         <header>
-            <h2 class="text-lg font-medium text-font-900">Edit User</h2>
-            <p class="mt-1 text-sm text-gray-600">
+            <h2 class="text-xs lg:text-xl  font-medium text-font-900">Edit User</h2>
+            <p class="mt-1 text-xs lg:text-sm text-gray-600">
                 Update selected user's information.
             </p>
         </header>

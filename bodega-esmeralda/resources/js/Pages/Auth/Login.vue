@@ -28,12 +28,6 @@ const submit = () => {
         preserveScroll: true,
         onSuccess: () => {
             localStorage.removeItem('welcomeShown');
-            const user = usePage().props.auth.user;
-            if (user && user.role === 'admin') {
-                window.location.href = route('admin.index');
-            } else {
-                window.location.href = route('dashboard');
-            }
         }
     });
 };

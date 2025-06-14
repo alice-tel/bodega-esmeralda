@@ -32,13 +32,11 @@ function handleImageError() {
 
     <AuthenticatedLayout>
         <template #header>
-            <h2 class="text-xl font-semibold leading-tight text-font-800">
                 Map
-            </h2>
         </template>
 
-        <div class="py-4">
-            <div class="mx-auto max-w-7xl space-y-6 px-4 sm:px-6 lg:px-8">
+        <div class="py-3">
+            <div class="mx-auto max-w-7xl space-y-4 px-2 sm:px-6 lg:px-8">
                 <div class="bg-background-100 shadow rounded-lg p-4 sm:p-8">
                     Map content here
                 </div>
