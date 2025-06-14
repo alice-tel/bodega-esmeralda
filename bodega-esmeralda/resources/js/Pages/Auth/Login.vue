@@ -5,6 +5,7 @@ import InputError from '@/Components/InputError.vue';
 import InputLabel from '@/Components/InputLabel.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
+import TextInputSuffix from '@/Components/TextInputSuffix.vue';
 import { Head, Link, useForm, router, usePage } from '@inertiajs/vue3';
 
 defineProps({
@@ -23,14 +24,20 @@ const form = useForm({
 });
 
 const submit = () => {
+
     form.post(route('login'), {
-        onFinish: () => form.reset('password'),
+        onFinish: () => {
+            console.log(form.data())
+            form.reset('password')
+        },
+
         preserveScroll: true,
         onSuccess: () => {
             localStorage.removeItem('welcomeShown');
         }
     });
 };
+
 </script>
 
 <template>
@@ -42,8 +49,8 @@ const submit = () => {
         </div>
 
         <form @submit.prevent="submit" class="max-w-xs mx-auto">
-            <div>
-                <TextInput
+            <div class="relative z-0 w-full group">
+                <TextInputSuffix
                     id="email"
                     type="email"
                     class="mt-1 block w-full"
@@ -52,8 +59,9 @@ const submit = () => {
                     autofocus
                     autocomplete="username"
                     label="Email"
-                />
+                    suffix="@bodegas-esmeralda.ar"
 
+                />
                 <InputError class="mt-2" :message="form.errors.email" />
             </div>
 

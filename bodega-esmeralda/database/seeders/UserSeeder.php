@@ -15,8 +15,15 @@ class UserSeeder extends Seeder
     {
         // Create admin user
         User::create([
-            'name' => 'Admin User',
+            'name' => 'Admin User Old',
             'email' => 'admin@test.com',
+            'password' => Hash::make('password'),
+            'email_verified_at' => now(),
+            'role' => 'admin', // Assuming your User model has a role field
+        ]);
+        User::create([
+            'name' => 'Admin User',
+            'email' => 'admin@bodegas-esmeralda.ar',
             'password' => Hash::make('password'),
             'email_verified_at' => now(),
             'role' => 'admin', // Assuming your User model has a role field
@@ -24,8 +31,15 @@ class UserSeeder extends Seeder
 
         // Create regular user
         User::create([
-            'name' => 'Test User',
+            'name' => 'Test User Old',
             'email' => 'test@test.com',
+            'password' => Hash::make('password'),
+            'email_verified_at' => now(),
+            'role' => 'user', // Assuming your User model has a role field
+        ]);
+        User::create([
+            'name' => 'Test User',
+            'email' => 'test@bodegas-esmeralda.ar',
             'password' => Hash::make('password'),
             'email_verified_at' => now(),
             'role' => 'user', // Assuming your User model has a role field

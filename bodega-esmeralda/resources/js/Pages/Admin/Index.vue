@@ -135,4 +135,4 @@ const toggleRole = (user) => {
             </div>
         </div>
     </AuthenticatedLayout>
-</template> 
+</template>

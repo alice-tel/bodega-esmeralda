@@ -4,6 +4,7 @@ import InputLabel from '@/Components/InputLabel.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
 import { Link, useForm, usePage } from '@inertiajs/vue3';
+import TextInputSuffix from "@/Components/TextInputSuffix.vue";
 
 defineProps({
     mustVerifyEmail: {
@@ -55,15 +56,16 @@ const form = useForm({
             </div>
 
             <div>
-                <TextInput
+                <InputLabel for="email" value="Email" />
+
+                <TextInputSuffix
                     id="email"
                     type="email"
                     class="mt-1 block w-full text-xs sm:text-base"
                     v-model="form.email"
                     required
                     autocomplete="username"
-                    label="Email"
-                    label-class="text-xs sm:text-sm"
+                    suffix="@bodegas-esmeralda.ar"
                 />
 
                 <InputError class="mt-2 text-xs sm:text-sm" :message="form.errors.email" />
