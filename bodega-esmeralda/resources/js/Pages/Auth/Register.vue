@@ -5,6 +5,7 @@ import InputLabel from '@/Components/InputLabel.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
 import { Head, Link, useForm, router } from '@inertiajs/vue3';
+import TextInputSuffix from "@/Components/TextInputSuffix.vue";
 
 const form = useForm({
     name: '',
@@ -28,7 +29,7 @@ const submit = () => {
     <GuestLayout>
         <Head title="Register" />
 
-        <form @submit.prevent="submit">
+        <form @submit.prevent="submit" class="max-w-xs mx-auto">
             <div>
 
                 <TextInput
@@ -46,7 +47,7 @@ const submit = () => {
             </div>
 
             <div class="mt-4">
-                <TextInput
+                <TextInputSuffix
                     id="email"
                     type="email"
                     class="mt-1 block w-full"
@@ -54,6 +55,7 @@ const submit = () => {
                     label="Email"
                     required
                     autocomplete="username"
+                    suffix="@bodegas-esmeralda.ar"
                 />
 
                 <InputError class="mt-2" :message="form.errors.email" />
@@ -83,7 +85,6 @@ const submit = () => {
                     required
                     label="Confirm Password"
                     autocomplete="new-password"
-                    placeholder=""
                 />
 
                 <InputError
@@ -92,21 +93,21 @@ const submit = () => {
                 />
             </div>
 
-            <div class="mt-4 flex items-center justify-end">
-                <Link
-                    :href="route('login')"
-                    class="rounded-md text-sm text-gray-500 underline hover:text-font-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                >
-                    Already registered?
-                </Link>
-
+            <div class="mt-4 flex flex-wrap justify-center items-center gap-x-3 gap-y-2">
                 <PrimaryButton
-                    class="ms-4"
+                    class="w-auto px-3.5 h-10 flex items-center justify-center"
                     :class="{ 'opacity-25': form.processing }"
                     :disabled="form.processing"
                 >
                     Register
                 </PrimaryButton>
+
+                <Link
+                    :href="route('login')"
+                    class="rounded-md text-sm px-3.5 py-2 font-medium text-gray-700 w-auto text-center h-10 flex items-center justify-center"
+                >
+                    Already registered?
+                </Link>
             </div>
         </form>
     </GuestLayout>

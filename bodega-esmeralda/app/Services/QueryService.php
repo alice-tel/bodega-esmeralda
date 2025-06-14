@@ -18,6 +18,7 @@ class QueryService
     public const TEMPERATURE_ID = 10;
 
     public const TEMPERATURE_HOUR_QUERY_ID = 10;
+    public const HUMIDITY_HOUR_QUERY_ID = 11;
 
     public function __construct(
         private string $email = 'cm444@test.com',
@@ -118,24 +119,37 @@ class QueryService
         $queryParameters = count($args) <= 0 ? "" : self::toQueryParameters($args);
 
         $url = self::getURL();
-        $completeUrl = "$url/api/IWA/contracten/{$contractId}/{$id}$queryParameters";
+        $completeUrl = "$url/api/IWA/contracten/{$contractId}/{$id}?$queryParameters";
         return file_get_contents($completeUrl, false, $dataContext);
     }
 
     public function queryTemperaturesOfCurrentDayAndHour()
     {
-        $date = now()->toDateString();
         $hour = now()->hour;
+        return $this->queryTemperaturesOfCurrentDayWithHour($hour);
+
+    }
+    public function queryTemperaturesOfCurrentDayWithHour($hour)
+    {
+        $date = now()->toDateString();
         $time = date("$hour:00:00");
 
         $queries = ["date" => $date, "time" => $time];
         return $this->query(self::TEMPERATURE_HOUR_QUERY_ID, $queries);
 
     }
+    public function queryHumidityOfCurrentDay()
+    {
+        $date = now()->toDateString();
+        $queries = ["date" => $date];
+
+        return $this->query(self::HUMIDITY_HOUR_QUERY_ID, $queries);
+
+    }
 
     private static function toQueryParameters(array $args): string
     {
-        $result = "?";
+        $result = "";
         foreach ($args as $key => $value) {
             $result = "$result&$key=$value";
         }

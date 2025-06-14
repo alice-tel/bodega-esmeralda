@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class TemperaturesMeasurements extends Model
 {
@@ -48,6 +50,23 @@ class TemperaturesMeasurements extends Model
     public static function getTemperaturesMeasurementsOfToday(): array
     {
         return TemperaturesMeasurements::all()->where(self::DATE, now()->toDate())->all();
+    }
+
+    public static function getTemperaturesMeasurementsOfTodayAndStation(string $stationName): array
+    {
+        return TemperaturesMeasurements::all()->where(self::NAME, $stationName)->where(self::DATE, now()->toDateString())->all();
+    }
+
+    public static function getTemperaturesMeasurementsOfTodayAndStationArray(string $stationName): array
+    {
+        $stationData = self::getTemperaturesMeasurementsOfTodayAndStation($stationName);
+        $dataArray = [];
+        foreach ($stationData as $measurement) {
+            $tempArray = $measurement->toArray();
+            $tempArray['humidity'] = random_int(0, 99);
+            $dataArray[] = $tempArray;
+        }
+        return $dataArray;
     }
 
 

@@ -20,13 +20,17 @@
     const navigateToMap = () => {
         window.location.href = route('map');
     };
+
+    const navigateToAdmin = () => {
+        window.location.href = route('admin.index');
+    };
 </script>
 
 <template>
     <div>
-        <div class="min-h-screen bg-gray-100">
+        <div class="min-h-screen bg-primary-100">
 
-            <nav class="border-b border-gray-100 bg-white">
+            <nav class="border-b border-font-100 bg-primary-100">
                 <!-- Primary Navigation Menu -->
                 <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                     <div class="flex h-16 justify-between">
@@ -34,64 +38,108 @@
 
                             <!-- Logo -->
                             <div class="flex shrink-0 items-center">
-                                <Link :href="route('dashboard')">
+                                <template v-if="$page.props.auth.user.role === 'admin'">
                                     <ApplicationLogo class="block h-9 w-auto fill-current text-gray-800"/>
-                                </Link>
+                                </template>
+                                <template v-else>
+                                    <Link :href="route('dashboard')">
+                                        <ApplicationLogo class="block h-9 w-auto fill-current text-gray-800"/>
+                                    </Link>
+                                </template>
                             </div>
 
                             <!-- Navigation Links -->
                             <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-
-                                <NavLink 
-                                    @click="navigateToDashboard" 
-                                    :active="route().current('dashboard')"
-                                >
-                                    Dashboard
-                                </NavLink>
-
-                                <NavLink 
-                                    @click="navigateToMap" 
-                                    :active="route().current('map')"
-                                >
-                                    Map
-                                </NavLink>
-
+                                <template v-if="$page.props.auth.user.role === 'admin'">
+                                    <NavLink 
+                                        @click="navigateToAdmin" 
+                                        :active="route().current('admin.index')"
+                                    >
+                                        Admin
+                                    </NavLink>
+                                </template>
+                                <template v-else>
+                                    <NavLink 
+                                        @click="navigateToDashboard" 
+                                        :active="route().current('dashboard')"
+                                    >
+                                        Dashboard
+                                    </NavLink>
+                                    <NavLink 
+                                        @click="navigateToMap" 
+                                        :active="route().current('map')"
+                                    >
+                                        Map
+                                    </NavLink>
+                                </template>
                             </div>
                         </div>
 
                         <div class="hidden sm:ms-6 sm:flex sm:items-center">
-                            <!-- Settings Dropdown -->
-                            <div class="relative ms-3">
-                                <Dropdown align="right" width="48">
-                                    <template #trigger>
-                                        <span class="inline-flex rounded-md">
-                                            <button
-                                                type="button"
-                                                class="inline-flex items-center rounded-md border-transparent bg-white px-3 py-2 text-sm font-medium leading-4 text-gray-500 transition duration-150 ease-in-out hover:text-gray-700 focus:outline-none"
+                            <template v-if="$page.props.auth.user.role === 'admin'">
+                                <div class="flex space-x-8 sm:-my-px sm:ms-10">
+                                    <NavLink 
+                                        @click="navigateToProfile"
+                                        :active="route().current('profile.edit')"
+                                    >
+                                        Profile
+                                    </NavLink>
+                                    <NavLink
+                                        :href="route('logout')"
+                                        method="post"
+                                        as="button"
+                                    >
+                                        Log Out
+                                    </NavLink>
+                                </div>
+                            </template>
+                            <template v-else>
+                                <!-- Settings Dropdown -->
+                                <div class="relative ms-3">
+                                    <Dropdown align="right" width="48">
+                                        <template #trigger>
+                                            <span class="inline-flex rounded-md">
+                                                <button
+                                                    type="button"
+                                                    class="inline-flex items-center rounded-md border-transparent bg-primary-100 px-3 py-2 text-sm font-medium leading-4 text-font-100 transition duration-150 ease-in-out hover:text-gray-700 focus:outline-none"
+                                                >
+                                                    {{ $page.props.auth.user.name }}
+
+                                                    <svg
+                                                        class="-me-0.5 ms-2 h-4 w-4"
+                                                        xmlns="http://www.w3.org/2000/svg"
+                                                        viewBox="0 0 20 20"
+                                                        fill="currentColor"
+                                                    >
+                                                        <path
+                                                            fill-rule="evenodd"
+                                                            d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                                                            clip-rule="evenodd"
+                                                        />
+                                                    </svg>
+                                                </button>
+                                            </span>
+                                        </template>
+
+                                        <template #content>
+                                            <DropdownLink
+                                                @click="navigateToProfile"
                                             >
-                                                {{ $page.props.auth.user.name }}
-                                            </button>
-                                        </span>
-                                    </template>
+                                                Profile
+                                            </DropdownLink>
 
-                                    <template #content>
-                                        <DropdownLink
-                                            @click="navigateToProfile"
-                                        >
-                                            Profile
-                                        </DropdownLink>
-
-                                        <DropdownLink
-                                            :href="route('logout')"
-                                            method="post"
-                                            as="button"
-                                        >
-                                            Log Out
-                                        </DropdownLink>
-                                        
-                                    </template>
-                                </Dropdown>
-                            </div>
+                                            <DropdownLink
+                                                :href="route('logout')"
+                                                method="post"
+                                                as="button"
+                                            >
+                                                Log Out
+                                            </DropdownLink>
+                                            
+                                        </template>
+                                    </Dropdown>
+                                </div>
+                            </template>
                         </div>
 
                         <!-- Hamburger -->
@@ -137,8 +185,8 @@
                     class="sm:hidden"
                 >
                     <div class="space-y-1 pb-3 pt-2">
-                        <div class="px-4 pb-2">
-                            <div class="text-base font-medium text-gray-800">
+                        <div class="px-4">
+                            <div class="text-base font-medium text-font-100">
                                 {{ $page.props.auth.user.name }}
                             </div>
                         </div>
@@ -163,6 +211,14 @@
                         </ResponsiveNavLink>
 
                         <ResponsiveNavLink
+                            v-if="$page.props.auth.user.role === 'admin'"
+                            @click="navigateToAdmin"
+                            :active="route().current('admin.index')"
+                        >
+                            Admin
+                        </ResponsiveNavLink>
+
+                        <ResponsiveNavLink
                             :href="route('logout')"
                             method="post"
                             as="button"
@@ -174,7 +230,7 @@
             </nav>
 
             <!-- Page Heading -->
-            <header class="bg-white shadow" v-if="$slots.header">
+            <header class="bg-primary-100 shadow" v-if="$slots.header">
                 <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
                     <slot name="header"/>
                 </div>

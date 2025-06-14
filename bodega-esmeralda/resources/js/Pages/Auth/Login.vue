@@ -5,7 +5,8 @@ import InputError from '@/Components/InputError.vue';
 import InputLabel from '@/Components/InputLabel.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
-import { Head, Link, useForm, router } from '@inertiajs/vue3';
+import TextInputSuffix from '@/Components/TextInputSuffix.vue';
+import { Head, Link, useForm, router, usePage } from '@inertiajs/vue3';
 
 defineProps({
     canResetPassword: {
@@ -23,15 +24,26 @@ const form = useForm({
 });
 
 const submit = () => {
+
     form.post(route('login'), {
-        onFinish: () => form.reset('password'),
+        onFinish: () => {
+            console.log(form.data())
+            form.reset('password')
+        },
+
         preserveScroll: true,
         onSuccess: () => {
             localStorage.removeItem('welcomeShown');
-            window.location.href = route('dashboard');
+            const user = usePage().props.auth.user;
+            if (user && user.role === 'admin') {
+                window.location.href = route('admin.index');
+            } else {
+                window.location.href = route('map');
+            }
         }
     });
 };
+
 </script>
 
 <template>
@@ -42,11 +54,9 @@ const submit = () => {
             {{ status }}
         </div>
 
-        <form @submit.prevent="submit">
-            <div>
-                <InputLabel for="email" value="Email" />
-
-                <TextInput
+        <form @submit.prevent="submit" class="max-w-xs mx-auto">
+            <div class="relative z-0 w-full group">
+                <TextInputSuffix
                     id="email"
                     type="email"
                     class="mt-1 block w-full"
@@ -54,14 +64,14 @@ const submit = () => {
                     required
                     autofocus
                     autocomplete="username"
-                />
+                    label="Email"
+                    suffix="@bodegas-esmeralda.ar"
 
+                />
                 <InputError class="mt-2" :message="form.errors.email" />
             </div>
 
             <div class="mt-4">
-                <InputLabel for="password" value="Password" />
-
                 <TextInput
                     id="password"
                     type="password"
@@ -69,6 +79,7 @@ const submit = () => {
                     v-model="form.password"
                     required
                     autocomplete="current-password"
+                    label="Password"
                 />
 
                 <InputError class="mt-2" :message="form.errors.password" />
@@ -83,29 +94,29 @@ const submit = () => {
                 </label>
             </div>
 
-            <div class="mt-4 flex items-center justify-between">
-                <Link
-                    v-if="canResetPassword"
-                    :href="route('password.request')"
-                    class="rounded-md text-sm text-gray-600 underline hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                >
-                    Forgot your password?
-                </Link>
-
-                <Link
-                    :href="route('register')"
-                    class="rounded-md bg-gray-100 px-3.5 py-2 text-sm font-medium text-gray-700 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                >
-                    Register
-                </Link>
-
+            <div class="mt-4 flex flex-wrap justify-center items-center gap-x-10 gap-y-2">
                 <PrimaryButton
-                    class="ms-4"
+                    class="w-auto px-3.5 h-10 flex items-center justify-center text-white"
                     :class="{ 'opacity-25': form.processing }"
                     :disabled="form.processing"
                 >
                     Log in
                 </PrimaryButton>
+
+                <Link
+                    :href="route('register')"
+                    class="rounded-md text-sm bg-gray-100 px-3.5 py-2 font-medium text-gray-700 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 w-auto text-center h-10 flex items-center justify-center"
+                >
+                    Register
+                </Link>
+
+                <Link
+                    v-if="canResetPassword"
+                    :href="route('password.request')"
+                    class="text-sm px-3.5 py-2 font-medium text-gray-700 w-auto text-center h-10 flex items-center justify-center"
+                >
+                    Forgot your password?
+                </Link>
             </div>
         </form>
     </GuestLayout>
