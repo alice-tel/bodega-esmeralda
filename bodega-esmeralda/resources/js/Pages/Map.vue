@@ -74,29 +74,15 @@ function handleImageError() {
 
     <AuthenticatedLayout>
         <template #header>
-            <h2 class="text-xl font-semibold leading-tight text-font-800">
                 Map
-            </h2>
         </template>
 
-        <template v-if="showWelcome">
-            <div class="py-3">
-                <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
-                    <div class="overflow-hidden bg-background-100 shadow-sm sm:rounded-lg">
-                        <div class="p-6 text-gray-900">
-                            You're logged in!
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </template>
-
-        <div class="py-4">
-            <div class="mx-auto max-w-7xl space-y-6 sm:px-6 lg:px-8">
-                <div class="bg-white shadow sm:rounded-lg overflow-hidden">
+        <div class="pt-3">
+            <div class="space-y-4 px-2 sm:px-0 md:px-0 lg:px-0">
+                <div class="bg-background-100 shadow rounded-lg">
                     <div 
                         ref="mapContainer" 
-                        class="w-full h-[calc(100vh-200px)] min-h-[500px]"
+                        class="w-full h-[calc(100vh-230px)] lg:h-[calc(100vh-150px)] min-h-[500px] rounded-lg overflow-hidden"
                         style="z-index: 1;"
                     ></div>
                 </div>
@@ -109,6 +95,8 @@ function handleImageError() {
 /* Ensure Leaflet controls are properly styled */
 :deep(.leaflet-container) {
     font-family: inherit;
+    border-radius: 8px;
+    overflow: hidden;
 }
 
 :deep(.leaflet-popup-content-wrapper) {

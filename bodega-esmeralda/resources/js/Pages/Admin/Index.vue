@@ -1,10 +1,9 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import { Head, useForm } from '@inertiajs/vue3';
+import { Head, useForm, router } from '@inertiajs/vue3';
 import { ref } from 'vue';
-import TextInput from '@/Components/TextInput.vue';
-import SelectInput from '@/Components/SelectInput.vue';
-import TextInputSuffix from "@/Components/TextInputSuffix.vue";
+import AddUserForm from '@/Pages/Admin/Partials/AddUserForm.vue';
+import EditUserForm from '@/Pages/Admin/Partials/EditUserForm.vue';
 
 const props = defineProps({
     users: {
@@ -13,61 +12,24 @@ const props = defineProps({
     }
 });
 
-const form = useForm({
-    name: '',
-    email: '',
-    password: '',
-    password_confirmation: '',
-    role: 'user'
-});
-
-const editForm = useForm({
-    id: null,
-    name: '',
-    email: '',
-    role: 'user'
-});
-
 const editingUser = ref(null);
-
-const submit = () => {
-    form.post(route('admin.users.store'), {
-        onSuccess: () => {
-            form.reset();
-        },
-    });
-};
 
 const editUser = (user) => {
     editingUser.value = user;
-    editForm.id = user.id;
-    editForm.name = user.name;
-    editForm.email = user.email;
-    editForm.role = user.role;
-};
-
-const updateUser = () => {
-    editForm.put(route('admin.users.update', editForm.id), {
-        onSuccess: () => {
-            editingUser.value = null;
-            editForm.reset();
-        },
-    });
 };
 
 const cancelEdit = () => {
     editingUser.value = null;
-    editForm.reset();
 };
 
 const deleteUser = (userId) => {
     if (confirm('Are you sure you want to delete this user?')) {
-        form.delete(route('admin.users.destroy', userId));
+        router.delete(route('admin.users.destroy', userId));
     }
 };
 
 const toggleRole = (user) => {
-    form.put(route('admin.users.update', user.id), {
+    router.put(route('admin.users.update', user.id), {
         role: user.role === 'admin' ? 'user' : 'admin'
     });
 };
@@ -78,73 +40,74 @@ const toggleRole = (user) => {
 
     <AuthenticatedLayout>
         <template #header>
-            <h2 class="text-xl font-semibold leading-tight text-font-800">
-                Admin Dashboard
-            </h2>
+            Welcome, {{ $page.props.auth.user.name }}
         </template>
 
-        <div class="py-12">
-            <div class="mx-auto max-w-7xl space-y-6 px-4 sm:px-6 lg:px-8">
+        <div class="py-3 min-h-[calc(100vh-16rem)]">
+            <div class="mx-auto max-w-7xl space-y-4 px-2 sm:px-6 lg:px-8">
                 <!-- Users Table Section -->
                 <div class="overflow-hidden bg-background-100 shadow-sm rounded-lg">
-                    <div class="p-4 sm:p-6">
-                        <h3 class="text-lg font-medium text-font-900 mb-6">User Management</h3>
+                    <div class="p-3 sm:p-6">
+                        <h3 class="text-xs lg:text-xl font-medium text-font-900 mb-4 sm:mb-6">User Management</h3>
 
                         <!-- Users Table -->
-                        <div class="overflow-x-auto -mx-4 sm:mx-0">
+                        <div class="overflow-x-auto sm:mx-0">
                             <table class="min-w-full divide-y divide-primary-100">
                                 <thead class="bg-background-100">
                                     <tr>
-                                        <th scope="col" class="px-3 py-3.5 text-left text-xs font-medium uppercase tracking-wider text-gray-500 sm:px-6">
+                                        <th scope="col" class="px-2 py-2 sm:px-6 sm:py-3.5 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
                                             Name
                                         </th>
-                                        <th scope="col" class="px-3 py-3.5 text-left text-xs font-medium uppercase tracking-wider text-gray-500 sm:px-6">
+                                        <th scope="col" class="px-2 py-2 sm:px-6 sm:py-3.5 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
                                             Email
                                         </th>
-                                        <th scope="col" class="px-3 py-3.5 text-left text-xs font-medium uppercase tracking-wider text-gray-500 sm:px-6">
+                                        <th scope="col" class="px-2 py-2 sm:px-6 sm:py-3.5 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
                                             Role
                                         </th>
-                                        <th scope="col" class="px-3 py-3.5 text-center text-xs font-medium uppercase tracking-wider text-gray-500 sm:px-6">
+                                        <th scope="col" class="px-2 py-2 sm:px-6 sm:py-3.5 text-center text-xs font-medium uppercase tracking-wider text-gray-500">
                                             Actions
                                         </th>
                                     </tr>
                                 </thead>
                                 <tbody class="divide-y divide-primary-100 bg-background-100">
                                     <tr v-for="user in users" :key="user.id">
-                                        <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-900 sm:px-6">
+                                        <td class="whitespace-nowrap px-2 py-2 sm:px-6 sm:py-4 text-xs text-gray-900">
                                             {{ user.name }}
                                         </td>
-                                        <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-900 sm:px-6">
+                                        <td class="whitespace-nowrap px-2 py-2 sm:px-6 sm:py-4 text-xs text-gray-900">
                                             {{ user.email }}
                                         </td>
-                                        <td class="whitespace-nowrap px-3 py-4 text-sm sm:px-6">
+                                        <td class="whitespace-nowrap px-2 py-2 sm:px-6 sm:py-4 text-xs">
                                             <span
                                                 :class="{
                                                     'bg-green-100 text-green-800': user.role === 'admin',
                                                     'bg-gray-100 text-gray-800': user.role === 'user'
                                                 }"
-                                                class="inline-flex rounded-full px-2 text-xs font-semibold leading-5"
+                                                class="inline-flex rounded-full px-1.5 sm:px-2 text-[10px] sm:text-xs font-semibold leading-5"
                                             >
                                                 {{ user.role }}
                                             </span>
                                         </td>
-                                        <td class="whitespace-nowrap px-3 py-4 text-sm sm:px-6 text-center">
-                                            <div class="flex flex-col gap-2 sm:flex-row sm:gap-4 justify-center items-center">
+                                        <td class="whitespace-nowrap px-2 py-2 sm:px-6 sm:py-4 text-xs text-center">
+                                            <div class="flex flex-col gap-1 sm:gap-2 sm:flex-row sm:gap-4 justify-center items-center">
                                                 <button
                                                     @click="editUser(user)"
-                                                    class="text-primary-600 hover:text-primary-900"
+                                                    class="text-primary-600 hover:text-primary-900 text-[10px] sm:text-sm"
                                                 >
                                                     Edit
                                                 </button>
+                                                <span v-if="user.role !== 'admin'" class="hidden sm:inline text-gray-300">|</span>
                                                 <button
+                                                    v-if="user.role !== 'admin'"
                                                     @click="toggleRole(user)"
-                                                    class="text-primary-600 hover:text-primary-900"
+                                                    class="text-primary-600 hover:text-primary-900 text-[10px] sm:text-sm"
                                                 >
                                                     {{ user.role === 'admin' ? 'Make User' : 'Make Admin' }}
                                                 </button>
+                                                <span class="hidden sm:inline text-gray-300">|</span>
                                                 <button
                                                     @click="deleteUser(user.id)"
-                                                    class="text-red-600 hover:text-red-900"
+                                                    class="text-red-600 hover:text-red-900 text-[10px] sm:text-sm"
                                                 >
                                                     Delete
                                                 </button>
@@ -158,130 +121,16 @@ const toggleRole = (user) => {
                 </div>
 
                 <!-- Edit User Form Section -->
-                <div v-if="editingUser" class="bg-white p-4 shadow rounded-lg sm:p-8 mb-6">
-                    <h3 class="text-lg font-medium text-font-900 mb-6">Edit User</h3>
-                    <form @submit.prevent="updateUser" class="space-y-4">
-                        <div>
-                            <TextInput
-                                id="edit_name"
-                                type="text"
-                                class="mt-1 block w-full"
-                                v-model="editForm.name"
-                                required
-                                label="Name"
-                            />
-                        </div>
-
-                        <div>
-                            <TextInputSuffix
-                                id="edit_email"
-                                type="email"
-                                class="mt-1 block w-full"
-                                v-model="editForm.email"
-                                required
-                                label="Email"
-                                suffix="@bodegas-esmeralda.ar"
-                            />
-                        </div>
-
-                        <div>
-                            <SelectInput
-                                id="edit_role"
-                                class="mt-1 block w-full"
-                                v-model="editForm.role"
-                                :options="[{ label: 'User', value: 'user' }, { label: 'Admin', value: 'admin' }]"
-                                label="Role"
-                            />
-                        </div>
-
-                        <div class="flex justify-end gap-x-3">
-                            <button
-                                type="button"
-                                class="flex items-center justify-center h-12 w-auto rounded-md border border-gray-300 bg-white px-4 py-2 text-base font-medium text-red-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2"
-                                @click="cancelEdit"
-                            >
-                                Cancel
-                            </button>
-                            <button
-                                type="submit"
-                                class="flex items-center justify-center h-12 w-auto rounded-md border border-transparent bg-primary-600 px-4 py-2 text-base font-medium text-red-700 shadow-sm hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2"
-                                :disabled="editForm.processing"
-                            >
-                                Update User
-                            </button>
-                        </div>
-                    </form>
+                <div v-if="editingUser" class="bg-background-100 p-3 shadow rounded-lg sm:p-8">
+                    <EditUserForm
+                        :user="editingUser"
+                        :cancelEdit="cancelEdit"
+                    />
                 </div>
 
                 <!-- Add User Form Section -->
-                <div class="bg-white p-4 shadow rounded-lg sm:p-8">
-                    <h3 class="text-lg font-medium text-font-900 mb-6">Add New User</h3>
-                    <form @submit.prevent="submit" class="space-y-4">
-                        <div>
-                            <TextInput
-                                id="name"
-                                type="text"
-                                class="mt-1 block w-full"
-                                v-model="form.name"
-                                required
-                                label="Name"
-                            />
-                        </div>
-
-                        <div>
-                            <TextInputSuffix
-                                id="email"
-                                type="email"
-                                class="mt-1 block w-full"
-                                v-model="form.email"
-                                required
-                                label="Email"
-                                suffix="@bodegas-esmeralda.ar"
-                            />
-                        </div>
-
-                        <div>
-                            <TextInput
-                                id="password"
-                                type="password"
-                                class="mt-1 block w-full"
-                                v-model="form.password"
-                                required
-                                label="Password"
-                            />
-                        </div>
-
-                        <div>
-                            <TextInput
-                                id="password_confirmation"
-                                type="password"
-                                class="mt-1 block w-full"
-                                v-model="form.password_confirmation"
-                                required
-                                label="Confirm Password"
-                            />
-                        </div>
-
-                        <div>
-                            <SelectInput
-                                id="role"
-                                class="mt-1 block w-full"
-                                v-model="form.role"
-                                :options="[{ label: 'User', value: 'user' }, { label: 'Admin', value: 'admin' }]"
-                                label="Role"
-                            />
-                        </div>
-
-                        <div class="flex justify-end">
-                            <button
-                                type="submit"
-                                class="flex items-center justify-center h-12 w-auto rounded-md border border-transparent bg-primary-600 px-4 py-2 text-base font-medium text-red-700 shadow-sm hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2"
-                                :disabled="form.processing"
-                            >
-                                Add User
-                            </button>
-                        </div>
-                    </form>
+                <div class="bg-background-100 p-3 shadow rounded-lg sm:p-8">
+                    <AddUserForm />
                 </div>
             </div>
         </div>

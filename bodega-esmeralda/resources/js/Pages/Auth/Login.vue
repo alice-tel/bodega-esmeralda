@@ -24,22 +24,15 @@ const form = useForm({
 });
 
 const submit = () => {
-
     form.post(route('login'), {
         onFinish: () => {
-            console.log(form.data())
-            form.reset('password')
+            form.reset('password');
         },
-
         preserveScroll: true,
         onSuccess: () => {
             localStorage.removeItem('welcomeShown');
-            const user = usePage().props.auth.user;
-            if (user && user.role === 'admin') {
-                window.location.href = route('admin.index');
-            } else {
-                window.location.href = route('map');
-            }
+            // Force a page reload to ensure proper state initialization
+            window.location.reload();
         }
     });
 };

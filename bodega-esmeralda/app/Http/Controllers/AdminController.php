@@ -38,7 +38,8 @@ class AdminController extends Controller
     public function update(Request $request, User $user)
     {
         $validated = $request->validate([
-            'email' => 'required|string|email|max:255|ends_with:@bodegas-esmeralda.ar|unique:users',
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|ends_with:@bodegas-esmeralda.ar|unique:users,email,' . $user->id,
             'role' => 'required|in:user,admin',
         ]);
 

@@ -26,30 +26,32 @@ const props = defineProps({
 
     <AuthenticatedLayout>
         <template #header>
-            <h2
-                class="text-xl font-semibold leading-tight text-font-800"
-            >
-                Station: {{ stationName }}
-            </h2>
+            Station: {{ stationName }}
         </template>
 
-        <div class="py-12">
+        <div class="py-3">
             <div
-                class="mx-auto max-w-7xl space-y-6 sm:px-6 lg:px-8"
+                class="space-y-4 px-2 sm:px-2 md:px-2 lg:px-2"
             >
-                <div class="bg-white p-4 shadow sm:rounded-lg sm:p-8">
-                    <Bar
-                        id="temperatures"
-                        :options="props.temperaturesOptions"
-                        :data="props.temperaturesData"/>
+                <div class="bg-white p-2 sm:p-4 md:p-6 lg:p-8 shadow rounded-lg">
+                    <h2 class="text-xl sm:text-xl font-semibold mb-4">Temperatures</h2>
+                    <div class="h-[300px] sm:h-[400px] md:h-[500px] lg:h-[600px]">
+                        <Bar
+                            id="temperatures"
+                            :options="props.temperaturesOptions"
+                            :data="props.temperaturesData"/>
+                    </div>
                 </div>
 
-                <div class="bg-white p-4 shadow sm:rounded-lg sm:p-8">
-                    <Bar
-                        id="humidity"
-                        title="humidity"
-                        :options="props.humiditiesOptions"
-                        :data="props.humiditiesData"/>
+                <div class="bg-white p-2 sm:p-4 md:p-6 lg:p-8 shadow rounded-lg">
+                    <h2 class="text-xl sm:text-xl font-semibold mb-4">Humidity</h2>
+                    <div class="h-[300px] sm:h-[400px] md:h-[500px] lg:h-[600px]">
+                        <Bar
+                            id="humidity"
+                            title="humidity"
+                            :options="props.humiditiesOptions"
+                            :data="props.humiditiesData"/>
+                    </div>
                 </div>
             </div>
         </div>
