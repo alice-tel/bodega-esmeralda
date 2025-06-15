@@ -36,7 +36,7 @@ const updatePassword = () => {
 <template>
     <section>
         <header>
-            <h2 class="text-base sm:text-lg font-medium text-gray-900">
+            <h2 class="text-xs lg:text-xl font-medium text-gray-900">
                 Update Password
             </h2>
 
@@ -47,54 +47,49 @@ const updatePassword = () => {
         </header>
 
         <form @submit.prevent="updatePassword" class="mt-6 space-y-6">
-            <div>
+            <div class="mt-4">
                 <TextInput
                     id="current_password"
-                    ref="currentPasswordInput"
-                    v-model="form.current_password"
                     type="password"
-                    class="mt-1 block w-full text-xs sm:text-base"
+                    class="mt-1 block w-full"
+                    v-model="form.current_password"
+                    required
                     autocomplete="current-password"
                     label="Current Password"
-                    label-class="text-xs sm:text-sm"
+                    label-class="text-xs sm:text-sm text-gray-700"
                 />
 
-                <InputError
-                    :message="form.errors.current_password"
-                    class="mt-2 text-xs sm:text-sm"
-                />
+                <InputError :message="form.errors.current_password" class="mt-2" />
             </div>
 
-            <div>
+            <div class="mt-4">
                 <TextInput
                     id="password"
-                    ref="passwordInput"
-                    v-model="form.password"
                     type="password"
-                    class="mt-1 block w-full text-xs sm:text-base"
+                    class="mt-1 block w-full"
+                    v-model="form.password"
+                    required
                     autocomplete="new-password"
                     label="New Password"
-                    label-class="text-xs sm:text-sm"
+                    label-class="text-xs sm:text-sm text-gray-700"
                 />
 
-                <InputError :message="form.errors.password" class="mt-2 text-xs sm:text-sm" />
+                <InputError :message="form.errors.password" class="mt-2" />
             </div>
 
-            <div>
+            <div class="mt-4">
                 <TextInput
                     id="password_confirmation"
-                    v-model="form.password_confirmation"
                     type="password"
-                    class="mt-1 block w-full text-xs sm:text-base"
+                    class="mt-1 block w-full"
+                    v-model="form.password_confirmation"
+                    required
                     autocomplete="new-password"
                     label="Confirm Password"
-                    label-class="text-xs sm:text-sm"
+                    label-class="text-xs sm:text-sm text-gray-700"
                 />
 
-                <InputError
-                    :message="form.errors.password_confirmation"
-                    class="mt-2 text-xs sm:text-sm"
-                />
+                <InputError :message="form.errors.password_confirmation" class="mt-2" />
             </div>
 
             <div class="flex items-center gap-4">

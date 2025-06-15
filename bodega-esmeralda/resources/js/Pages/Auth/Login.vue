@@ -24,16 +24,15 @@ const form = useForm({
 });
 
 const submit = () => {
-
     form.post(route('login'), {
         onFinish: () => {
-            console.log(form.data())
-            form.reset('password')
+            form.reset('password');
         },
-
         preserveScroll: true,
         onSuccess: () => {
             localStorage.removeItem('welcomeShown');
+            // Force a page reload to ensure proper state initialization
+            window.location.reload();
         }
     });
 };

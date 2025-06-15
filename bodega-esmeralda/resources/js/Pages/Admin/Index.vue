@@ -47,11 +47,11 @@ const toggleRole = (user) => {
             <div class="mx-auto max-w-7xl space-y-4 px-2 sm:px-6 lg:px-8">
                 <!-- Users Table Section -->
                 <div class="overflow-hidden bg-background-100 shadow-sm rounded-lg">
-                    <div class="p-4 sm:p-6">
+                    <div class="p-3 sm:p-6">
                         <h3 class="text-xs lg:text-xl font-medium text-font-900 mb-6">User Management</h3>
 
                         <!-- Users Table -->
-                        <div class="overflow-x-auto  sm:mx-0">
+                        <div class="overflow-x-auto sm:mx-0">
                             <table class="min-w-full divide-y divide-primary-100">
                                 <thead class="bg-background-100">
                                     <tr>
@@ -121,7 +121,7 @@ const toggleRole = (user) => {
                 </div>
 
                 <!-- Edit User Form Section -->
-                <div v-if="editingUser" class="bg-background-100 p-4 shadow rounded-lg sm:p-8 mb-6">
+                <div v-if="editingUser" class="bg-background-100 p-3 shadow rounded-lg sm:p-8 mb-6">
                     <EditUserForm
                         :user="editingUser"
                         :cancelEdit="cancelEdit"
@@ -129,7 +129,7 @@ const toggleRole = (user) => {
                 </div>
 
                 <!-- Add User Form Section -->
-                <div class="bg-background-100 p-4 shadow rounded-lg sm:p-8">
+                <div class="bg-background-100 p-3 shadow rounded-lg sm:p-8">
                     <AddUserForm />
                 </div>
             </div>

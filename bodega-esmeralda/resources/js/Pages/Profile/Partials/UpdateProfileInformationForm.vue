@@ -39,36 +39,35 @@ const form = useForm({
             @submit.prevent="form.patch(route('profile.update'))"
             class="mt-6 space-y-6"
         >
-            <div>
+            <div class="mt-4">
                 <TextInput
                     id="name"
                     type="text"
-                    class="mt-1 block w-full text-xs sm:text-base"
+                    class="mt-1 block w-full"
                     v-model="form.name"
                     required
                     autofocus
                     autocomplete="name"
                     label="Name"
-                    label-class="text-xs sm:text-sm"
+                    label-class="text-xs sm:text-sm text-gray-700"
                 />
 
-                <InputError class="mt-2 text-xs sm:text-sm" :message="form.errors.name" />
+                <InputError class="mt-2" :message="form.errors.name" />
             </div>
 
-            <div>
-                <InputLabel for="email" value="Email" />
-
-                <TextInputSuffix
+            <div class="mt-4">
+                <TextInput
                     id="email"
                     type="email"
-                    class="mt-1 block w-full text-xs sm:text-base"
+                    class="mt-1 block w-full"
                     v-model="form.email"
                     required
                     autocomplete="username"
-                    suffix="@bodegas-esmeralda.ar"
+                    label="Email"
+                    label-class="text-xs sm:text-sm text-gray-700"
                 />
 
-                <InputError class="mt-2 text-xs sm:text-sm" :message="form.errors.email" />
+                <InputError class="mt-2" :message="form.errors.email" />
             </div>
 
             <div v-if="mustVerifyEmail && user.email_verified_at === null">

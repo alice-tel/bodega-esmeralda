@@ -6,12 +6,8 @@ import UpdateProfileInformationForm from './Partials/UpdateProfileInformationFor
 import { Head } from '@inertiajs/vue3';
 
 defineProps({
-    mustVerifyEmail: {
-        type: Boolean,
-    },
-    status: {
-        type: String,
-    },
+    mustVerifyEmail: Boolean,
+    status: String,
 });
 </script>
 
@@ -20,14 +16,12 @@ defineProps({
 
     <AuthenticatedLayout>
         <template #header>
-                Profile
+            Profile
         </template>
 
         <div class="py-3">
             <div class="mx-auto max-w-7xl space-y-4 px-2 sm:px-6 lg:px-8">
-                <div
-                    class="bg-white p-4 shadow rounded-lg sm:p-8"
-                >
+                <div class="bg-white p-3 shadow rounded-lg sm:p-8">
                     <UpdateProfileInformationForm
                         :must-verify-email="mustVerifyEmail"
                         :status="status"
@@ -35,15 +29,11 @@ defineProps({
                     />
                 </div>
 
-                <div
-                    class="bg-white p-4 shadow rounded-lg sm:p-8"
-                >
+                <div class="bg-white p-3 shadow rounded-lg sm:p-8">
                     <UpdatePasswordForm class="max-w-xl" />
                 </div>
 
-                <div
-                    class="bg-white p-4 shadow rounded-lg sm:p-8"
-                >
+                <div class="bg-white p-3 shadow rounded-lg sm:p-8">
                     <DeleteUserForm class="max-w-xl" />
                 </div>
             </div>

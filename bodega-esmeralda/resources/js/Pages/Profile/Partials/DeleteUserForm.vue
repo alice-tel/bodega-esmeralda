@@ -41,7 +41,7 @@ const closeModal = () => {
 <template>
     <section class="space-y-6">
         <header>
-            <h2 class="text-base sm:text-lg font-medium text-gray-900">
+            <h2 class="text-xs lg:text-xl font-medium text-gray-900">
                 Delete Account
             </h2>
 
@@ -74,14 +74,14 @@ const closeModal = () => {
                         ref="passwordInput"
                         v-model="form.password"
                         type="password"
-                        class="mt-1 block w-3/4 text-xs sm:text-base"
+                        class="mt-1 block w-3/4"
                         placeholder="Password"
                         @keyup.enter="deleteUser"
                         label="Password"
-                        label-class="text-xs sm:text-sm"
+                        label-class="text-xs sm:text-sm text-gray-700"
                     />
 
-                    <InputError :message="form.errors.password" class="mt-2 text-xs sm:text-sm" />
+                    <InputError :message="form.errors.password" class="mt-2" />
                 </div>
 
                 <div class="mt-6 flex justify-end">
