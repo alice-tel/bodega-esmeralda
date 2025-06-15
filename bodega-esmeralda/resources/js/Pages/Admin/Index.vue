@@ -43,41 +43,41 @@ const toggleRole = (user) => {
             Welcome, {{ $page.props.auth.user.name }}
         </template>
 
-        <div class="py-3">
+        <div class="py-3 min-h-[calc(100vh-16rem)]">
             <div class="mx-auto max-w-7xl space-y-4 px-2 sm:px-6 lg:px-8">
                 <!-- Users Table Section -->
                 <div class="overflow-hidden bg-background-100 shadow-sm rounded-lg">
                     <div class="p-3 sm:p-6">
-                        <h3 class="text-xs lg:text-xl font-medium text-font-900 mb-6">User Management</h3>
+                        <h3 class="text-xs lg:text-xl font-medium text-font-900 mb-4 sm:mb-6">User Management</h3>
 
                         <!-- Users Table -->
                         <div class="overflow-x-auto sm:mx-0">
                             <table class="min-w-full divide-y divide-primary-100">
                                 <thead class="bg-background-100">
                                     <tr>
-                                        <th scope="col" class="px-2 sm:px-3 py-2 sm:py-3.5 text-left text-xs font-medium uppercase tracking-wider text-gray-500 sm:px-6">
+                                        <th scope="col" class="px-2 py-2 sm:px-6 sm:py-3.5 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
                                             Name
                                         </th>
-                                        <th scope="col" class="px-2 sm:px-3 py-2 sm:py-3.5 text-left text-xs font-medium uppercase tracking-wider text-gray-500 sm:px-6">
+                                        <th scope="col" class="px-2 py-2 sm:px-6 sm:py-3.5 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
                                             Email
                                         </th>
-                                        <th scope="col" class="px-2 sm:px-3 py-2 sm:py-3.5 text-left text-xs font-medium uppercase tracking-wider text-gray-500 sm:px-6">
+                                        <th scope="col" class="px-2 py-2 sm:px-6 sm:py-3.5 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
                                             Role
                                         </th>
-                                        <th scope="col" class="px-2 sm:px-3 py-2 sm:py-3.5 text-center text-xs font-medium uppercase tracking-wider text-gray-500 sm:px-6">
+                                        <th scope="col" class="px-2 py-2 sm:px-6 sm:py-3.5 text-center text-xs font-medium uppercase tracking-wider text-gray-500">
                                             Actions
                                         </th>
                                     </tr>
                                 </thead>
                                 <tbody class="divide-y divide-primary-100 bg-background-100">
                                     <tr v-for="user in users" :key="user.id">
-                                        <td class="whitespace-nowrap px-2 sm:px-3 py-2 sm:py-4 text-xs text-gray-900 sm:px-6">
+                                        <td class="whitespace-nowrap px-2 py-2 sm:px-6 sm:py-4 text-xs text-gray-900">
                                             {{ user.name }}
                                         </td>
-                                        <td class="whitespace-nowrap px-2 sm:px-3 py-2 sm:py-4 text-xs text-gray-900 sm:px-6">
+                                        <td class="whitespace-nowrap px-2 py-2 sm:px-6 sm:py-4 text-xs text-gray-900">
                                             {{ user.email }}
                                         </td>
-                                        <td class="whitespace-nowrap px-2 sm:px-3 py-2 sm:py-4 text-xs sm:px-6">
+                                        <td class="whitespace-nowrap px-2 py-2 sm:px-6 sm:py-4 text-xs">
                                             <span
                                                 :class="{
                                                     'bg-green-100 text-green-800': user.role === 'admin',
@@ -88,7 +88,7 @@ const toggleRole = (user) => {
                                                 {{ user.role }}
                                             </span>
                                         </td>
-                                        <td class="whitespace-nowrap px-2 sm:px-3 py-2 sm:py-4 text-xs sm:px-6 text-center">
+                                        <td class="whitespace-nowrap px-2 py-2 sm:px-6 sm:py-4 text-xs text-center">
                                             <div class="flex flex-col gap-1 sm:gap-2 sm:flex-row sm:gap-4 justify-center items-center">
                                                 <button
                                                     @click="editUser(user)"
@@ -121,7 +121,7 @@ const toggleRole = (user) => {
                 </div>
 
                 <!-- Edit User Form Section -->
-                <div v-if="editingUser" class="bg-background-100 p-3 shadow rounded-lg sm:p-8 mb-6">
+                <div v-if="editingUser" class="bg-background-100 p-3 shadow rounded-lg sm:p-8">
                     <EditUserForm
                         :user="editingUser"
                         :cancelEdit="cancelEdit"

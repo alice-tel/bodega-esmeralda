@@ -14,7 +14,7 @@
         </div>
 
         <div>
-            <TextInput
+            <TextInputSuffix
                 id="email"
                 type="email"
                 class="mt-1 block w-full text-xs sm:text-base"
@@ -22,6 +22,7 @@
                 required
                 label="Email"
                 label-class="text-xs sm:text-sm"
+                suffix="@bodegas-esmeralda.ar"
             />
             <InputError class="mt-2 text-xs sm:text-sm" :message="form.errors.email" />
         </div>
@@ -35,7 +36,15 @@
                 required
                 label="Password"
                 label-class="text-xs sm:text-sm"
+                @input="validatePassword"
             />
+            <div v-if="form.password" class="mt-1 text-xs text-gray-600">
+                <p :class="{ 'text-red-500': !hasMinLength }">• At least 8 characters</p>
+                <p :class="{ 'text-red-500': !hasUppercase }">• At least one uppercase letter</p>
+                <p :class="{ 'text-red-500': !hasLowercase }">• At least one lowercase letter</p>
+                <p :class="{ 'text-red-500': !hasNumber }">• At least one number</p>
+                <p :class="{ 'text-red-500': !hasSpecialChar }">• At least one special character</p>
+            </div>
             <InputError class="mt-2 text-xs sm:text-sm" :message="form.errors.password" />
         </div>
 
@@ -48,7 +57,13 @@
                 required
                 label="Confirm Password"
                 label-class="text-xs sm:text-sm"
+                @input="validatePassword"
             />
+
+            <div v-if="form.password_confirmation && !passwordsMatch" class="mt-1 text-xs text-red-500">
+                • Passwords do not match
+            </div>
+
             <InputError class="mt-2 text-xs sm:text-sm" :message="form.errors.password_confirmation" />
         </div>
 
@@ -86,8 +101,10 @@
 
 <script setup>
 import TextInput from '@/Components/TextInput.vue';
+import TextInputSuffix from '@/Components/TextInputSuffix.vue';
 import SelectInput from '@/Components/SelectInput.vue';
 import InputError from '@/Components/InputError.vue';
+import { ref, computed } from 'vue';
 
 const props = defineProps({
     form: Object,
@@ -99,6 +116,17 @@ const props = defineProps({
 });
 
 const emit = defineEmits(['submit', 'cancel']);
+
+const hasMinLength = computed(() => props.form.password?.length >= 8);
+const hasUppercase = computed(() => /[A-Z]/.test(props.form.password || ''));
+const hasLowercase = computed(() => /[a-z]/.test(props.form.password || ''));
+const hasNumber = computed(() => /[0-9]/.test(props.form.password || ''));
+const hasSpecialChar = computed(() => /[!@#$%^&*(),.?":{}|<>]/.test(props.form.password || ''));
+const passwordsMatch = computed(() => props.form.password === props.form.password_confirmation);
+
+const validatePassword = () => {
+    // You can add additional validation logic here if needed
+};
 
 const handleSubmit = () => {
     emit('submit');
