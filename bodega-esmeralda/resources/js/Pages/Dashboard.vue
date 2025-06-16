@@ -70,7 +70,7 @@ onUnmounted(() => {
             </div>
         </template>
 
-        <div class="space-y-4 px-2 py-3 sm:px-2 md:px-2 lg:px-2">
+        <div class="space-y-4 px-2 py-3 sm:px-2 sm:py-1 md:px-2 lg:px-2">
             <template v-if="showWelcome">
                 <div class="mb-4">
                     <div class="bg-secondary-100 shadow rounded-lg p-4 sm:p-8 text-background-100">
@@ -79,7 +79,7 @@ onUnmounted(() => {
                 </div>
             </template>
 
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 ">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-2 sm:gap-4">
                 <Link
                     :href="route('map')"
                     class="bg-background-100 shadow rounded-lg p-3 sm:p-8 h-full lg:h-[calc(100vh-10rem)] lg:col-span-2 block no-underline text-font-100"
@@ -93,57 +93,21 @@ onUnmounted(() => {
                 </Link>
 
                 <div class="bg-background-100 shadow rounded-lg p-3 sm:p-8 h-full lg:h-[calc(100vh-10rem)] lg:col-span-1">
-                    <h4 class="text-lg sm:text-xl font-semibold mb-3 sm:mb-4">Top 10</h4>
-<!--                    <ul class="space-y-1.5 sm:space-y-2">-->
-<!--                        <li class="flex justify-between items-center">-->
-<!--                            <span>Manaus, Brazil</span>-->
-<!--                            <span class="text-primary-100">98%</span>-->
-<!--                        </li>-->
-<!--                        <li class="flex justify-between items-center">-->
-<!--                            <span>Iquitos, Peru</span>-->
-<!--                            <span class="text-primary-100">96%</span>-->
-<!--                        </li>-->
-<!--                        <li class="flex justify-between items-center">-->
-<!--                            <span>Belém, Brazil</span>-->
-<!--                            <span class="text-primary-100">94%</span>-->
-<!--                        </li>-->
-<!--                        <li class="flex justify-between items-center">-->
-<!--                            <span>Leticia, Colombia</span>-->
-<!--                            <span class="text-primary-100">92%</span>-->
-<!--                        </li>-->
-<!--                        <li class="flex justify-between items-center">-->
-<!--                            <span>Puerto Maldonado, Peru</span>-->
-<!--                            <span class="text-primary-100">90%</span>-->
-<!--                        </li>-->
-<!--                        <li class="flex justify-between items-center">-->
-<!--                            <span>Macapá, Brazil</span>-->
-<!--                            <span class="text-primary-100">88%</span>-->
-<!--                        </li>-->
-<!--                        <li class="flex justify-between items-center">-->
-<!--                            <span>Santa Cruz, Bolivia</span>-->
-<!--                            <span class="text-primary-100">86%</span>-->
-<!--                        </li>-->
-<!--                        <li class="flex justify-between items-center">-->
-<!--                            <span>Cayenne, French Guiana</span>-->
-<!--                            <span class="text-primary-100">84%</span>-->
-<!--                        </li>-->
-<!--                        <li class="flex justify-between items-center">-->
-<!--                            <span>Paramaribo, Suriname</span>-->
-<!--                            <span class="text-primary-100">82%</span>-->
-<!--                        </li>-->
-<!--                        <li class="flex justify-between items-center">-->
-<!--                            <span>Georgetown, Guyana</span>-->
-<!--                            <span class="text-primary-100">80%</span>-->
-<!--                        </li>-->
-<!--                    </ul>-->
-                    <ul class="space-y-1.5 sm:space-y-2">
-                        <li v-for="station in topStations" :key="station.name" class="flex justify-between items-center">
+                    <h4 class="text-lg sm:text-xl font-semibold mb-3 sm:mb-4">Most Humid Weather Stations</h4>
+                    <ol class="space-y-1.5 p-1 sm:space-y-2">
+                        <li v-for="(station, index) in topStations" :key="station.name" class="flex justify-between items-center">
                             <Link :href="route('getGraph', { stationName: station.name })" class="flex justify-between w-full no-underline text-font-100 hover:underline">
-                                 <span>{{ station.name }}</span>
-                                 <span class="text-primary-100">{{ station.humidity }}%</span>
+                                <div class="flex items-center gap-2">
+                                    <span class="text-secondary-100 min-w-[1.5rem]">{{ index + 1 }}.</span>
+                                    <div class="flex flex-col">
+                                        <span>{{ station.location_name }}</span>
+                                        <span class="text-sm text-gray-500">Station: {{ station.name }}</span>
+                                    </div>
+                                </div>
+                                <span class="text-secondary-100">{{ station.humidity }}%</span>
                             </Link>
                         </li>
-                    </ul>
+                    </ol>
                 </div>
             </div>
 

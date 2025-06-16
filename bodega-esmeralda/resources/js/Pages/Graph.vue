@@ -14,6 +14,7 @@ const props = defineProps({
     humiditiesData: Map,
     humiditiesOptions: Map,
     stationName: String,
+    locationName: String,
     name: 'BarChart',
     components: { Bar },
 
@@ -22,11 +23,12 @@ const props = defineProps({
 </script>
 
 <template>
-    <Head title="Station: {{ stationName }}" />
+    <Head :title="`Graph for ${locationName} - Station ${stationName}`" />
 
     <AuthenticatedLayout>
         <template #header>
-            Station: {{ stationName }}
+            {{ locationName }}
+            <span class="text-sm text-gray-500"> - Station: {{ stationName }}</span>
         </template>
 
         <div class="py-3">
