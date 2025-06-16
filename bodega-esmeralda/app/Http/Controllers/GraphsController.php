@@ -6,10 +6,59 @@ use App\Models\TemperaturesMeasurements;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Inertia\Inertia;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Cache;
 
 class GraphsController extends Controller
 {
     private const HOURS_ARRAY = [ '01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23' ];
+
+    private function getLocationName($latitude, $longitude)
+    {
+        $cacheKey = 'location_' . $latitude . '_' . $longitude;
+
+        return Cache::rememberForever($cacheKey, function () use ($latitude, $longitude) {
+            try {
+                $response = Http::withHeaders([
+                    'User-Agent' => 'BodegaEsmeralda/1.0 (your-email@example.com)' // Replace with your actual application name and email
+                ])->get("https://nominatim.openstreetmap.org/reverse", [
+                    'format' => 'json',
+                    'lat' => $latitude,
+                    'lon' => $longitude,
+                    'zoom' => 10,
+                    'addressdetails' => 1
+                ]);
+
+                if ($response->successful()) {
+                    $data = $response->json();
+
+                    if (isset($data['address'])) {
+                        $address = $data['address'];
+                        $primaryLocation = $address['city'] ?? $address['village'] ?? $address['state'] ?? null;
+                        $country = $address['country'] ?? null;
+
+                        if ($primaryLocation && $country) {
+                            return $primaryLocation . ', ' . $country;
+                        } elseif ($primaryLocation) {
+                            return $primaryLocation;
+                        } elseif ($country) {
+                            return $country;
+                        } else {
+                            return $data['display_name'] ?? 'Unknown Location';
+                        }
+                    } else {
+                        Log::warning('Nominatim API response successful but missing address for lat:' . $latitude . ', lon:' . $longitude . '. Response: ' . json_encode($data));
+                    }
+                } else {
+                    Log::error('Nominatim API request failed for lat:' . $latitude . ', lon:' . $longitude . '. Status:' . $response->status() . ', Body: ' . $response->body());
+                }
+            } catch (\Exception $e) {
+                Log::error('Geocoding exception for lat:' . $latitude . ', lon:' . $longitude . '. Message: ' . $e->getMessage());
+            }
+            
+            return 'Unknown Location';
+        });
+    }
 
     private const temperaturesOptions = [
         "responsive" => true,
@@ -199,6 +248,26 @@ class GraphsController extends Controller
 
     public function getGraph($stationName)
     {
+        // Hardcoded station coordinates for demonstration purposes, matching DashboardController
+        $stations = [
+            "100020" => ["longitude" => -68.1193,  "latitude" => -16.4897],
+            "100040" => ["longitude" => -55.7821,  "latitude" => -34.9011],
+            "100060" => ["longitude" => -60.0217,  "latitude" => -3.1190],
+            "100070" => ["longitude" => -66.9188,  "latitude" => 10.4806],
+            "100080" => ["longitude" => -78.4678,  "latitude" => -0.1807],
+            "100090" => ["longitude" => -71.4925,  "latitude" => -13.5320],
+            "100100" => ["longitude" => -58.3816,  "latitude" => -34.6037],
+            "100110" => ["longitude" => -70.6483,  "latitude" => -33.4489],
+            "100120" => ["longitude" => -46.6333,  "latitude" => -23.5505],
+            "100130" => ["longitude" => -74.0721,  "latitude" => 4.7110]
+        ];
+
+        $locationName = 'Unknown Location';
+        if (isset($stations[$stationName])) {
+            $stationCoords = $stations[$stationName];
+            $locationName = $this->getLocationName($stationCoords['latitude'], $stationCoords['longitude']);
+        }
+
         //TODO Pak de juiste info aka neem de API over zodat die weg kan.
         $allMeasurements = TemperaturesMeasurements::getTemperaturesMeasurementsOfTodayAndStationArray($stationName);
         Log::info(print_r($allMeasurements, true));
@@ -237,6 +306,7 @@ class GraphsController extends Controller
             'humiditiesData' => $humiditiesData,
             'humiditiesOptions' => self::humiditiesOptions,
             'stationName' => $stationName,
+            'locationName' => $locationName,
         ]);
     }
 

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ApiTestController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\GraphsController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\AdminController;
@@ -12,9 +13,9 @@ Route::get('/', function () {
     return redirect()->route('login');
 });
 
-Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/dashboard', [DashboardController::class, 'index'])
+    ->middleware(['auth', 'verified'])
+    ->name('dashboard');
 
 Route::get('/map', function () {
     return Inertia::render('Map', [
