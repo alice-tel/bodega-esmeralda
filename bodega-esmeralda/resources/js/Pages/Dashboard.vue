@@ -31,7 +31,16 @@ onMounted(() => {
         shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-shadow.png',
     });
 
-    map.value = L.map(mapContainer.value).setView([-34.6118, -58.3960], 6);
+    map.value = L.map(mapContainer.value, {
+        dragging: false,
+        zoomControl: false,
+        scrollWheelZoom: false,
+        doubleClickZoom: false,
+        boxZoom: false,
+        keyboard: false,
+        tap: false,
+        touchZoom: false,
+    }).setView([-34.6118, -58.3960], 6);
 
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
