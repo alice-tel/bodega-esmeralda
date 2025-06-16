@@ -5,69 +5,84 @@ namespace App\Http\Controllers;
 use App\Models\HumidityMeasurements;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Inertia\Inertia;
 
 class DashboardController extends Controller
 {
-    //ik maak deze ff uit mijn hoofd terwijl mijn update bezig gaan, dus als t dom eruit ziet t is omdat ik t niet kan testen.
-    public function getData(){
-        $data = HumidityMeasurements::getHumidityAverageOfStationsOfToday();
-        Log::info(print_r($data, true));
-    }
 
-
-    // Group raw stations by name
-    function groupedStations(array $stations)
+    public function getData()
     {
-        $groups = [];
-        foreach ($stations as $station) {
-//            $name = $station->name;
-            $name = $station['name'];
+        $stations = ["100020" =>
+            [
+                "name" => "100020",
+                "longitude" => 6.367,
+                "latitude" => 53.8,
+                "elevation" => 6,
+                "tempurture" => 15,
+                "humidity" => 20,
+                "time" => "16:59:30",
+                "date" => "2025-05-31"
+            ], "100040" =>
+            [
+                "name" => "100040",
+                "longitude" => 6.367,
+                "latitude" => 53.8,
+                "elevation" => 6,
+                "tempurture" => 15,
+                "humidity" => 40,
+                "time" => "16:59:30",
+                "date" => "2025-05-31"
+            ], "100060" =>
+            [
+                "name" => "100060",
+                "longitude" => 6.367,
+                "latitude" => 53.8,
+                "elevation" => 6,
+                "tempurture" => 15,
+                "humidity" => 60,
+                "time" => "16:59:30",
+                "date" => "2025-05-31"
+            ], "100070" =>
+            [
+                "name" => "100070",
+                "longitude" => 6.367,
+                "latitude" => 53.8,
+                "elevation" => 6,
+                "tempurture" => 15,
+                "humidity" => 70,
+                "time" => "16:59:30",
+                "date" => "2025-05-31"
+            ], "100080" =>
+            [
+                "name" => "100080",
+                "longitude" => 6.367,
+                "latitude" => 53.8,
+                "elevation" => 6,
+                "tempurture" => 15,
+                "humidity" => 80,
+                "time" => "16:59:30",
+                "date" => "2025-05-31"
+            ]
+        ];
 
-            if (!isset($groups[$name]))
-                $groups[$name] = [];
+//        $stations = array_values($Fakedata);
 
-            $groups[$name][] = $station;
+        // brian zei gebruik laravel functie hiervoor dus heb deze gechatgpt
+        usort($stations, fn($a, $b) => $b['humidity'] <=> $a['humidity']);
 
-        }
-        return $groups;
+        //zit zegt momenteel top5, zodra er meer info is maken we hier top10 van (dit doe je door t laatste nummer in de volgende variabele aan te passen
+        $top5 = array_slice($stations, 0, 5);
+
+        return $top5;
     }
 
-    //comebine the data per hour so that an avarge for the day can be calculated, The function may have to be reworked because idk if it will work well with multiple stations
-    function combinePerHour($data): array
+    public function index()
     {
-        $hourlyData = [];
+        $topStations = $this->getData();
 
-        foreach ($data as $entry) {
-            $time = $entry['time'];
-            $hour = substr($time, 0, 2);
-
-            if (!isset($hourlyData[$hour])) {
-                $hourlyData[$hour] = [
-                    'total_temp' => 0,
-                    'total_humidity' => 0,
-                    'count' => 0
-                ];
-            }
-
-            $hourlyData[$hour]['total_temp'] += $entry['temperature'];
-            $hourlyData[$hour]['total_humidity'] += $entry['humidity'];
-            $hourlyData[$hour]['count'] += 1;
-        }
-        return $hourlyData;
+        return Inertia::render('Dashboard', [
+            'topStations' => $topStations
+        ]);
     }
 
-    function avarigeData($hourlyData)
-    {
-        $filteredData = [];
-
-        foreach ($hourlyData as $hour => $data) {
-//            print_r($data);
-            $filteredData[] = [
-                'hour' => $hour,
-                'temperature' => round($data['total_temp'] / $data['count'], 2),
-                'humidity' => round($data['total_humidity'] / $data['count'], 2),
-            ];
-        }
-        return $filteredData;
-    }
 }

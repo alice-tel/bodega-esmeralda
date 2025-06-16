@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ApiTestController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\GraphsController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\AdminController;
@@ -41,4 +42,5 @@ Route::middleware(['auth', \App\Http\Middleware\AdminMiddleware::class])->group(
     Route::delete('/admin/users/{user}', [AdminController::class, 'destroy'])->name('admin.users.destroy');
 });
 
+Route::get('/DashboardTest', [DashboardController::class, 'Index'])->name('Index');
 require __DIR__.'/auth.php';
