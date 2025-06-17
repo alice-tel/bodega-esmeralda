@@ -3,6 +3,7 @@
 use App\Http\Controllers\ApiTestController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\GraphsController;
+use App\Http\Controllers\MapController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\AdminController;
 use Illuminate\Foundation\Application;
@@ -17,14 +18,7 @@ Route::get('/dashboard', [DashboardController::class, 'index'])
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
 
-Route::get('/map', function () {
-    return Inertia::render('Map', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
-    ]);
-})->middleware(['auth', 'verified'])->name('map');
+Route::get('/map', [MapController::class, 'show'])->middleware(['auth', 'verified'])->name('map');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

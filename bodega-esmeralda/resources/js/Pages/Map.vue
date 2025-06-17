@@ -5,7 +5,7 @@ import { onMounted, onUnmounted, ref } from 'vue';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 
-defineProps({
+const props = defineProps({
     canLogin: {
         type: Boolean,
     },
@@ -20,12 +20,25 @@ defineProps({
         type: String,
         required: true,
     },
+    stations: {
+        type: Array,
+        required: true,
+    }
 });
 
 const map = ref(null);
 const mapContainer = ref(null);
 
+const stationsArray = Object.entries(props.stations);
+
 onMounted(() => {
+    setUpIcon();
+    setUpMap();
+    setUpMapMarkers();
+    setUpMapReseizer();
+});
+
+function setUpIcon(){
     // Fix for default markers in Leaflet with Webpack
     delete L.Icon.Default.prototype._getIconUrl;
     L.Icon.Default.mergeOptions({
@@ -33,7 +46,9 @@ onMounted(() => {
         iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-icon.png',
         shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-shadow.png',
     });
+}
 
+function setUpMap(){
     // Initialize the map
     map.value = L.map(mapContainer.value).setView([-34.6118, -58.3960], 6); // Centered on Argentina (Buenos Aires) :)
 
@@ -42,18 +57,28 @@ onMounted(() => {
         attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
         maxZoom: 19,
     }).addTo(map.value);
+}
 
+function setUpMapMarkers(){
+    for (const station of stationsArray) {
+        const data = station[1];
+        const message = `This is station: ${data['name']}\n Temperature was: ${data['temperature']}°C at: ${data['time']}`
+        addMapMarker(data['longitude'], data['latitude'], message);
+    }
+}
+
+function addMapMarker(longitude, latitude, message){
     // Example: Add a marker
-    L.marker([-34.6118, -58.3960])
+    L.marker([longitude, latitude])
         .addTo(map.value)
-        .bindPopup('¡Hola desde Buenos Aires, Argentina!')
-        .openPopup();
-
+        .bindPopup(message);
+}
+function setUpMapReseizer(){
     // Resize map when container changes
     setTimeout(() => {
         map.value.invalidateSize();
     }, 100);
-});
+}
 
 onUnmounted(() => {
     if (map.value) {
@@ -80,8 +105,8 @@ function handleImageError() {
         <div class="pt-3">
             <div class="space-y-4 px-2 sm:px-0 md:px-0 lg:px-0">
                 <div class="bg-background-100 shadow rounded-lg">
-                    <div 
-                        ref="mapContainer" 
+                    <div
+                        ref="mapContainer"
                         class="w-full h-[calc(100vh-230px)] lg:h-[calc(100vh-150px)] min-h-[500px] rounded-lg overflow-hidden"
                         style="z-index: 1;"
                     ></div>

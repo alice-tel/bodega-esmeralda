@@ -49,7 +49,7 @@ class TemperaturesMeasurements extends Model
 
     public static function getTemperaturesMeasurementsOfToday(): array
     {
-        return TemperaturesMeasurements::all()->where(self::DATE, now()->toDate())->all();
+        return TemperaturesMeasurements::all()->where(self::DATE, now()->toDateString())->all();
     }
 
     public static function getTemperaturesMeasurementsOfTodayAndStation(string $stationName): array
@@ -69,6 +69,34 @@ class TemperaturesMeasurements extends Model
         return $dataArray;
     }
 
+    /***
+     * This method will gather all temperature measurements of the current day and order them per station,
+     * with the latest temperature measured from this station.
+     * @return array
+     */
+    public static function getTemperaturesOfTodayLatestUnique(): array
+    {
+        $tempMeasurs = $stationData = self::getTemperaturesMeasurementsOfToday();
+        $tempPerStation = [];
+        foreach ($tempMeasurs as $tempMeasurement) {
+            $tempMeasurArr = $tempMeasurement->toArray();
+
+            if (!isset($tempPerStation[$tempMeasurement->name])) {
+                $tempPerStation[$tempMeasurement->name] = $tempMeasurArr;
+                continue;
+            }
+
+            $timeLargest = $tempPerStation[$tempMeasurement->name][self::TIME];
+            $timeCurrent = $tempMeasurement->time;
+
+            if (strtotime($timeLargest) < strtotime($timeCurrent)){
+                $tempPerStation[$tempMeasurement->name] = $tempMeasurArr;
+                continue;
+            }
+        }
+
+        return $tempPerStation;
+    }
 
     /**
      * Gets the temperatures of stations in south-america to the
