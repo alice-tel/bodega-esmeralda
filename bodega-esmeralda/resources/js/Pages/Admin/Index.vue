@@ -1,10 +1,9 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import { Head, useForm, router } from '@inertiajs/vue3';
+import { Head, router } from '@inertiajs/vue3';
 import { ref } from 'vue';
 import AddUserForm from '@/Pages/Admin/Partials/AddUserForm.vue';
 import EditUserForm from '@/Pages/Admin/Partials/EditUserForm.vue';
-import { emailDomain } from "@/app.js";
 
 const props = defineProps({
     users: {

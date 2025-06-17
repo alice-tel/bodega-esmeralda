@@ -34,4 +34,4 @@ const submit = () => {
             @submit="submit"
         />
     </section>
-</template> 
+</template>

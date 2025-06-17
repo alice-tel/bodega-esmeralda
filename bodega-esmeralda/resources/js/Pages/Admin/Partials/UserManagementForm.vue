@@ -1,3 +1,42 @@
+<script setup>
+import TextInput from '@/Components/TextInput.vue';
+import TextInputSuffix from '@/Components/TextInputSuffix.vue';
+import SelectInput from '@/Components/SelectInput.vue';
+import InputError from '@/Components/InputError.vue';
+import { computed } from 'vue';
+
+const props = defineProps({
+    form: Object,
+    isEdit: {
+        type: Boolean,
+        default: false
+    },
+    submitLabel: String,
+});
+
+const emailDomain = import.meta.env.VITE_EMAIL_DOMAIN || '@email_not_loaded.er'
+const emit = defineEmits(['submit', 'cancel']);
+
+const hasMinLength = computed(() => props.form.password?.length >= 8);
+const hasUppercase = computed(() => /[A-Z]/.test(props.form.password || ''));
+const hasLowercase = computed(() => /[a-z]/.test(props.form.password || ''));
+const hasNumber = computed(() => /[0-9]/.test(props.form.password || ''));
+const hasSpecialChar = computed(() => /[!@#$%^&*(),.?":{}|<>]/.test(props.form.password || ''));
+const passwordsMatch = computed(() => props.form.password === props.form.password_confirmation);
+
+const validatePassword = () => {
+    // You can add additional validation logic here if needed
+};
+
+const handleSubmit = () => {
+    emit('submit');
+};
+
+const handleCancel = () => {
+    emit('cancel');
+};
+</script>
+
 <template>
     <form @submit.prevent="handleSubmit" class="space-y-4">
         <div>
@@ -99,41 +138,3 @@
     </form>
 </template>
 
-<script setup>
-import TextInput from '@/Components/TextInput.vue';
-import TextInputSuffix from '@/Components/TextInputSuffix.vue';
-import SelectInput from '@/Components/SelectInput.vue';
-import InputError from '@/Components/InputError.vue';
-import { ref, computed } from 'vue';
-import {emailDomain} from "@/app.js";
-
-const props = defineProps({
-    form: Object,
-    isEdit: {
-        type: Boolean,
-        default: false
-    },
-    submitLabel: String,
-});
-
-const emit = defineEmits(['submit', 'cancel']);
-
-const hasMinLength = computed(() => props.form.password?.length >= 8);
-const hasUppercase = computed(() => /[A-Z]/.test(props.form.password || ''));
-const hasLowercase = computed(() => /[a-z]/.test(props.form.password || ''));
-const hasNumber = computed(() => /[0-9]/.test(props.form.password || ''));
-const hasSpecialChar = computed(() => /[!@#$%^&*(),.?":{}|<>]/.test(props.form.password || ''));
-const passwordsMatch = computed(() => props.form.password === props.form.password_confirmation);
-
-const validatePassword = () => {
-    // You can add additional validation logic here if needed
-};
-
-const handleSubmit = () => {
-    emit('submit');
-};
-
-const handleCancel = () => {
-    emit('cancel');
-};
-</script>

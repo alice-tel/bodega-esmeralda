@@ -2,12 +2,10 @@
 import Checkbox from '@/Components/Checkbox.vue';
 import GuestLayout from '@/Layouts/GuestLayout.vue';
 import InputError from '@/Components/InputError.vue';
-import InputLabel from '@/Components/InputLabel.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
 import TextInputSuffix from '@/Components/TextInputSuffix.vue';
-import { Head, Link, useForm, router, usePage } from '@inertiajs/vue3';
-import {emailDomain} from "@/app.js";
+import { Head, Link, useForm, } from '@inertiajs/vue3';
 
 defineProps({
     canResetPassword: {
@@ -23,6 +21,7 @@ const form = useForm({
     password: '',
     remember: false,
 });
+const emailDomain = import.meta.env.VITE_EMAIL_DOMAIN || '@email_not_loaded.er'
 
 const submit = () => {
     form.post(route('login'), {

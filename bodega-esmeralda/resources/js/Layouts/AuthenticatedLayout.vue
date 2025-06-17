@@ -1,11 +1,9 @@
 <script setup>
     import { ref } from 'vue';
     import ApplicationLogo from '@/Components/ApplicationLogo.vue';
-    import Dropdown from '@/Components/Dropdown.vue';
-    import DropdownLink from '@/Components/DropdownLink.vue';
     import NavLink from '@/Components/NavLink.vue';
     import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
-    import { Link, router } from '@inertiajs/vue3';
+    import { Link } from '@inertiajs/vue3';
     import { Transition } from 'vue';
 
     const showingNavigationDropdown = ref(false);
@@ -40,7 +38,9 @@
                             <!-- Logo -->
                             <div class="flex shrink-0 items-center">
                                 <template v-if="$page.props.auth.user.role === 'admin'">
-                                    <ApplicationLogo class="block h-9 w-auto fill-current text-gray-800"/>
+                                    <Link :href="route('admin.index')">
+                                        <ApplicationLogo class="block h-9 w-auto fill-current text-gray-800"/>
+                                    </Link>
                                 </template>
                                 <template v-else>
                                     <Link :href="route('dashboard')">
@@ -52,22 +52,22 @@
                             <!-- Navigation Links -->
                             <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                                 <template v-if="$page.props.auth.user.role === 'admin'">
-                                    <NavLink 
-                                        @click="navigateToAdmin" 
+                                    <NavLink
+                                        @click="navigateToAdmin"
                                         :active="route().current('admin.index')"
                                     >
                                         Admin
                                     </NavLink>
                                 </template>
                                 <template v-else>
-                                    <NavLink 
-                                        @click="navigateToDashboard" 
+                                    <NavLink
+                                        @click="navigateToDashboard"
                                         :active="route().current('dashboard')"
                                     >
                                         Dashboard
                                     </NavLink>
-                                    <NavLink 
-                                        @click="navigateToMap" 
+                                    <NavLink
+                                        @click="navigateToMap"
                                         :active="route().current('map')"
                                     >
                                         Map
@@ -79,7 +79,7 @@
                         <div class="hidden sm:ms-6 sm:flex sm:items-center">
                             <template v-if="$page.props.auth.user.role === 'admin'">
                                 <div class="flex space-x-8 sm:-my-px sm:ms-10">
-                                    <NavLink 
+                                    <NavLink
                                         @click="navigateToProfile"
                                         :active="route().current('profile.edit')"
                                     >
@@ -259,7 +259,7 @@
             <main class="flex-1 transition-all duration-300">
                 <slot/>
             </main>
-            
+
             <!-- Footer -->
             <footer class="bg-primary-100">
                 <div class="mx-auto max-w-7xl px-4 py-4 sm:px-6 lg:px-8">

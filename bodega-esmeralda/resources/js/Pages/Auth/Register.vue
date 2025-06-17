@@ -7,7 +7,6 @@ import TextInput from '@/Components/TextInput.vue';
 import { Head, Link, useForm, router } from '@inertiajs/vue3';
 import TextInputSuffix from "@/Components/TextInputSuffix.vue";
 import { computed } from 'vue';
-import { emailDomain } from 'resources/js/app.js'
 
 const form = useForm({
     name: '',
@@ -15,6 +14,8 @@ const form = useForm({
     password: '',
     password_confirmation: '',
 });
+
+const emailDomain = import.meta.env.VITE_EMAIL_DOMAIN || '@email_not_loaded.er'
 
 const hasMinLength = computed(() => form.password?.length >= 8);
 const hasUppercase = computed(() => /[A-Z]/.test(form.password || ''));

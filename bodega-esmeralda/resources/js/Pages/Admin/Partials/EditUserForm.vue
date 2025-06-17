@@ -46,4 +46,4 @@ const submit = () => {
             @cancel="cancelEdit"
         />
     </section>
-</template> 
+</template>
