@@ -7,6 +7,7 @@ import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
 import TextInputSuffix from '@/Components/TextInputSuffix.vue';
 import { Head, Link, useForm, router, usePage } from '@inertiajs/vue3';
+import {emailDomain} from "@/app.js";
 
 defineProps({
     canResetPassword: {
@@ -58,7 +59,7 @@ const submit = () => {
                     autofocus
                     autocomplete="username"
                     label="Email"
-                    suffix="@bodegas-esmeralda.ar"
+                    :suffix="emailDomain"
 
                 />
                 <InputError class="mt-2" :message="form.errors.email" />

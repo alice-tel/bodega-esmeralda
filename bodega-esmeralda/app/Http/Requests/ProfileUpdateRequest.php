@@ -15,6 +15,7 @@ class ProfileUpdateRequest extends FormRequest
      */
     public function rules(): array
     {
+        $emailDomain = env('EMAIL_DOMAIN', '@email_not_loaded.er');
         return [
             'name' => ['required', 'string', 'max:255'],
             'email' => [
@@ -22,7 +23,7 @@ class ProfileUpdateRequest extends FormRequest
                 'string',
                 'lowercase',
                 'email',
-                'ends_with:@bodegas-esmeralda.ar',
+                "ends_with:$emailDomain",
                 'max:255',
                 Rule::unique(User::class)->ignore($this->user()->id),
             ],

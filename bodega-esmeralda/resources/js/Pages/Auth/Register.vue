@@ -7,6 +7,7 @@ import TextInput from '@/Components/TextInput.vue';
 import { Head, Link, useForm, router } from '@inertiajs/vue3';
 import TextInputSuffix from "@/Components/TextInputSuffix.vue";
 import { computed } from 'vue';
+import { emailDomain } from 'resources/js/app.js'
 
 const form = useForm({
     name: '',
@@ -62,7 +63,7 @@ const submit = () => {
                     label="Email"
                     required
                     autocomplete="username"
-                    suffix="@bodegas-esmeralda.ar"
+                    :suffix="emailDomain"
                 />
 
                 <InputError class="mt-2" :message="form.errors.email" />

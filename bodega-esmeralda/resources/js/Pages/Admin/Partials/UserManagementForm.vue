@@ -22,7 +22,7 @@
                 required
                 label="Email"
                 label-class="text-xs sm:text-sm"
-                suffix="@bodegas-esmeralda.ar"
+                :suffix="emailDomain"
             />
             <InputError class="mt-2 text-xs sm:text-sm" :message="form.errors.email" />
         </div>
@@ -105,6 +105,7 @@ import TextInputSuffix from '@/Components/TextInputSuffix.vue';
 import SelectInput from '@/Components/SelectInput.vue';
 import InputError from '@/Components/InputError.vue';
 import { ref, computed } from 'vue';
+import {emailDomain} from "@/app.js";
 
 const props = defineProps({
     form: Object,
@@ -135,4 +136,4 @@ const handleSubmit = () => {
 const handleCancel = () => {
     emit('cancel');
 };
-</script> 
+</script>

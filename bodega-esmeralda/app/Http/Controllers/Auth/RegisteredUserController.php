@@ -30,9 +30,10 @@ class RegisteredUserController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
+        $emailDomain = env('EMAIL_DOMAIN', '@email_not_loaded.er');
         $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|string|lowercase|email|max:255|ends_with:@bodegas-esmeralda.ar|unique:'.User::class,
+            'email' => "required|string|lowercase|email|max:255|ends_with:$emailDomain|unique:".User::class,
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 

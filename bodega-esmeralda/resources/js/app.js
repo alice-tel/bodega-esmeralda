@@ -9,6 +9,7 @@ import { createApp, h } from 'vue';
 import { ZiggyVue } from '../../vendor/tightenco/ziggy';
 
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
+export const emailDomain = import.meta.env.VITE_EMAIL_DOMAIN || '@email_not_loaded.er'
 
 createInertiaApp({
     title: (title) => `${title} - ${appName}`,

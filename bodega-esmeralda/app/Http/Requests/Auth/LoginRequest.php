@@ -40,8 +40,8 @@ class LoginRequest extends FormRequest
     public function authenticate(): void
     {
         $this->ensureIsNotRateLimited();
-
-        if (!str_ends_with($this->only('email')['email'], '@bodegas-esmeralda.ar') || !Auth::attempt($this->only('email', 'password'), $this->boolean('remember'))) {
+        $emailDomain = env('EMAIL_DOMAIN', '@email_not_loaded.er');
+        if (!str_ends_with($this->only('email')['email'], $emailDomain) || !Auth::attempt($this->only('email', 'password'), $this->boolean('remember'))) {
             RateLimiter::hit($this->throttleKey());
 
             throw ValidationException::withMessages([

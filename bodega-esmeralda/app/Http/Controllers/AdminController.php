@@ -18,9 +18,10 @@ class AdminController extends Controller
 
     public function store(Request $request)
     {
+        $emailDomain = env('EMAIL_DOMAIN', '@email_not_loaded.er');
         $validated = $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|ends_with:@bodegas-esmeralda.ar|unique:users',
+            'email' => "required|string|email|max:255|ends_with:$emailDomain|unique:users",
             'password' => 'required|string|min:8|confirmed',
             'role' => 'required|in:user,admin'
         ]);
@@ -37,9 +38,10 @@ class AdminController extends Controller
 
     public function update(Request $request, User $user)
     {
+        $emailDomain = env('EMAIL_DOMAIN', '@email_not_loaded.er');
         $validated = $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|ends_with:@bodegas-esmeralda.ar|unique:users,email,' . $user->id,
+            'email' => "required|string|email|max:255|ends_with:$emailDomain|unique:users,email," . $user->id,
             'role' => 'required|in:user,admin',
         ]);
 
