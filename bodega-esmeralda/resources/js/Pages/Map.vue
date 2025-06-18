@@ -62,13 +62,15 @@ function setUpMap(){
 function setUpMapMarkers(){
     for (const station of stationsArray) {
         const data = station[1];
-        const message = `This is station: ${data['name']}\n Temperature was: ${data['temperature']}°C at: ${data['time']}`
+        const stationName = data['name'];
+        const temperature = data['temperature'];
+        const time = data['time'];
+        const message = `<p>This is station: <a href="/graph/${stationName}">${stationName}</a> Temperature was: ${temperature}°C at: ${time}</p>`
         addMapMarker(data['longitude'], data['latitude'], message);
     }
 }
 
 function addMapMarker(longitude, latitude, message){
-    // Example: Add a marker
     L.marker([latitude, longitude])
         .addTo(map.value)
         .bindPopup(message);
