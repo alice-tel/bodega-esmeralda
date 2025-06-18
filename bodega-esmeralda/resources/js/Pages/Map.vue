@@ -69,7 +69,7 @@ function setUpMapMarkers(){
 
 function addMapMarker(longitude, latitude, message){
     // Example: Add a marker
-    L.marker([longitude, latitude])
+    L.marker([latitude, longitude])
         .addTo(map.value)
         .bindPopup(message);
 }

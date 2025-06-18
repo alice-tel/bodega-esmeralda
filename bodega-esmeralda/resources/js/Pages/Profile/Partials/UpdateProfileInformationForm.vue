@@ -16,6 +16,7 @@ defineProps({
 });
 
 const user = usePage().props.auth.user;
+const emailDomain = import.meta.env.VITE_EMAIL_DOMAIN || '@email_not_loaded.er'
 
 const form = useForm({
     name: user.name,
@@ -56,7 +57,7 @@ const form = useForm({
             </div>
 
             <div class="mt-4">
-                <TextInput
+                <TextInputSuffix
                     id="email"
                     type="email"
                     class="mt-1 block w-full"
@@ -65,6 +66,7 @@ const form = useForm({
                     autocomplete="username"
                     label="Email"
                     label-class="text-xs sm:text-sm text-gray-700"
+                    :suffix="emailDomain"
                 />
 
                 <InputError class="mt-2" :message="form.errors.email" />
