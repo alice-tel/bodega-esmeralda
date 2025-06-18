@@ -78,31 +78,10 @@
 
                         <div class="hidden sm:ms-6 sm:flex sm:items-center">
                             <template v-if="$page.props.auth.user.role === 'admin'">
-                                <div class="flex space-x-8 sm:-my-px sm:ms-10">
-                                    <NavLink
-                                        @click="navigateToProfile"
-                                        :active="route().current('profile.edit')"
-                                    >
-                                        Profile
-                                    </NavLink>
-                                    <NavLink
-                                        :href="route('logout')"
-                                        method="post"
-                                        as="button"
-                                    >
-                                        Log Out
-                                    </NavLink>
-                                </div>
-                            </template>
-                            <template v-else>
-                                <!-- User Name and Navigation Links -->
                                 <div class="flex items-center space-x-4">
-                                    <span class="text-sm font-medium text-font-100">
-                                        {{ $page.props.auth.user.name }}
-                                    </span>
                                     <button
                                         @click="navigateToProfile"
-                                        class="p-2 text-font-100 hover:text-gray-700 transition duration-150 ease-in-out focus:outline-none"
+                                        class="p-2 text-font-100 hover:text-details-100 transition duration-150 ease-in-out focus:outline-none"
                                         :class="{ 'text-gray-700': route().current('profile.edit') }"
                                     >
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5">
@@ -113,7 +92,34 @@
                                         :href="route('logout')"
                                         method="post"
                                         as="button"
-                                        class="p-2 text-font-100 hover:text-gray-700 transition duration-150 ease-in-out focus:outline-none"
+                                        class="p-2 text-font-100 hover:text-details-100 transition duration-150 ease-in-out focus:outline-none"
+                                    >
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15M12 9l-3 3m0 0l3 3m-3-3h12.75" />
+                                        </svg>
+                                    </Link>
+                                </div>
+                            </template>
+                            <template v-else>
+                                <!-- User Name and Navigation Links -->
+                                <div class="flex items-center space-x-4">
+                                    <span class="text-sm font-medium text-font-100">
+                                        {{ $page.props.auth.user.name }}
+                                    </span>
+                                    <button
+                                        @click="navigateToProfile"
+                                        class="p-2 text-font-100 hover:text-details-100 transition duration-150 ease-in-out focus:outline-none"
+                                        :class="{ 'text-gray-700': route().current('profile.edit') }"
+                                    >
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
+                                        </svg>
+                                    </button>
+                                    <Link
+                                        :href="route('logout')"
+                                        method="post"
+                                        as="button"
+                                        class="p-2 text-font-100 hover:text-details-100 transition duration-150 ease-in-out focus:outline-none"
                                     >
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5">
                                             <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15M12 9l-3 3m0 0l3 3m-3-3h12.75" />
@@ -137,7 +143,7 @@
                                 </button>
                                 <button
                                     @click="navigateToProfile"
-                                    class="inline-flex items-center justify-center rounded-md p-2 text-font-100 transition duration-150 ease-in-out hover:bg-gray-100 hover:text-gray-700 focus:bg-gray-100 focus:text-gray-700 focus:outline-none"
+                                    class="inline-flex items-center justify-center rounded-md p-2 text-font-100 hover:text-details-100 transition duration-150 ease-in-out focus:outline-none"
                                     :class="{ 'text-gray-700': route().current('profile.edit') }"
                                 >
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
@@ -148,7 +154,7 @@
                                     :href="route('logout')"
                                     method="post"
                                     as="button"
-                                    class="inline-flex items-center justify-center rounded-md p-2 text-font-100 transition duration-150 ease-in-out hover:bg-gray-100 hover:text-gray-700 focus:bg-gray-100 focus:text-gray-700 focus:outline-none"
+                                    class="inline-flex items-center justify-center rounded-md p-2 text-font-100 hover:text-details-100 transition duration-150 ease-in-out focus:outline-none"
                                 >
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15M12 9l-3 3m0 0l3 3m-3-3h12.75" />
