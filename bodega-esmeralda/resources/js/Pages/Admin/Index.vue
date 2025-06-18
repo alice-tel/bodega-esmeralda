@@ -55,29 +55,29 @@ const toggleRole = (user) => {
                             <table class="min-w-full divide-y divide-primary-100">
                                 <thead class="bg-background-100">
                                     <tr>
-                                        <th scope="col" class="px-2 py-2 sm:px-6 sm:py-3.5 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
+                                        <th scope="col" class="px-2 py-2 sm:px-6 sm:py-3.5 text-left text-xs lg:text-s font-medium uppercase tracking-wider text-gray-500">
                                             Name
                                         </th>
-                                        <th scope="col" class="px-2 py-2 sm:px-6 sm:py-3.5 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
+                                        <th scope="col" class="px-2 py-2 sm:px-6 sm:py-3.5 text-left text-xs lg:text-s font-medium uppercase tracking-wider text-gray-500">
                                             Email
                                         </th>
-                                        <th scope="col" class="px-2 py-2 sm:px-6 sm:py-3.5 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
+                                        <th scope="col" class="px-2 py-2 sm:px-6 sm:py-3.5 text-left text-xs lg:text-s font-medium uppercase tracking-wider text-gray-500">
                                             Role
                                         </th>
-                                        <th scope="col" class="px-2 py-2 sm:px-6 sm:py-3.5 text-center text-xs font-medium uppercase tracking-wider text-gray-500">
+                                        <th scope="col" class="px-2 py-2 sm:px-6 sm:py-3.5 text-center text-xs lg:text-s font-medium uppercase tracking-wider text-gray-500">
                                             Actions
                                         </th>
                                     </tr>
                                 </thead>
                                 <tbody class="divide-y divide-primary-100 bg-background-100">
                                     <tr v-for="user in users" :key="user.id">
-                                        <td class="whitespace-nowrap px-2 py-2 sm:px-6 sm:py-4 text-xs text-gray-900">
+                                        <td class="whitespace-nowrap px-2 py-2 sm:px-6 sm:py-4 text-xs lg:text-sm text-gray-900">
                                             {{ user.name }}
                                         </td>
-                                        <td class="whitespace-nowrap px-2 py-2 sm:px-6 sm:py-4 text-xs text-gray-900">
+                                        <td class="whitespace-nowrap px-2 py-2 sm:px-6 sm:py-4 text-xs lg:text-sm text-gray-900">
                                             {{ user.email }}
                                         </td>
-                                        <td class="whitespace-nowrap px-2 py-2 sm:px-6 sm:py-4 text-xs">
+                                        <td class="whitespace-nowrap px-2 py-2 sm:px-6 sm:py-4 text-xs lg:text-sm ">
                                             <span
                                                 :class="{
                                                     'bg-green-100 text-green-800': user.role === 'admin',

@@ -92,7 +92,7 @@ defineExpose({ focus: () => input.value.focus() });
         <input
             :id="id"
             :type="type"
-            class="block py-2.5 px-0 w-full text-sm text-font-100 bg-transparent border-t-0 border-l-0 border-r-0 border-b-2 border-primary-100 appearance-none focus:outline-none focus:ring-0 focus:border-details-100 peer"
+            class="block py-2.5 px-0 w-full text-s text-font-100 bg-transparent border-t-0 border-l-0 border-r-0 border-b-2 border-primary-100 appearance-none focus:outline-none focus:ring-0 focus:border-details-100 peer"
             :placeholder="placeholder"
             :value="modelValue"
             @input="inputChanged($event)"
