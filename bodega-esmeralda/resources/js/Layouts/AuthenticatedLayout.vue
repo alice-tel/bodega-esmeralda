@@ -262,12 +262,12 @@
             </header>
 
             <!-- Page Content -->
-            <main class="flex-1 transition-all duration-300">
+            <main class="flex-1 transition-all duration-300 relative z-10">
                 <slot/>
             </main>
 
             <!-- Footer -->
-            <footer class="bg-primary-100">
+            <footer class="bg-primary-100 relative z-0">
                 <div class="mx-auto max-w-7xl px-4 py-4 sm:px-6 lg:px-8">
                     <div class="flex justify-center items-center text-xs sm:text-sm text-font-600">
                         © {{ new Date().getFullYear() }} Bodegas Esmelralda - All rights reserved.
