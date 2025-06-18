@@ -10,22 +10,34 @@ use Illuminate\Support\Facades\Log;
 
 class QueryTemperaturesAndSaveToDatabaseCommand extends Command
 {
-    protected $signature = 'query-save:temperatures {--time=}';
+    protected $signature = 'query-save:temperatures {--all=} {--time=}';
 
 
     public function handle(QueryService $service){
         $service->login();
 
-        $response = $this->queryToServer($service);
+        if ($this->hasOption('all')){
+            for ($i=1; $i < 24; $i++){
+                $timeOption = sprintf("%02d", $i);
+                $this->querySave($service, $timeOption);
+            }
+        }
+        else{
+            $timeOption = $this->hasOption('time') ? $this->option('time') : null;
+            $this->querySave($service, $timeOption);
+        }
+    }
+
+    private function querySave($service, $timeOption = null)
+    {
+        $response = $this->queryToServer($service, $timeOption);
         $measurements = json_decode($response);
         TemperaturesMeasurements::saveAsTempMeasurements($measurements);
     }
-
-    private function queryToServer(QueryService $service): string
+    private function queryToServer(QueryService $service, $timeOption = null): string
     {
-        if ($this->hasArgument('time')) {
-            $timeArg = $this->argument('time');
-            return $service->queryTemperaturesOfCurrentDayWithHour($timeArg);
+        if ($timeOption != null) {
+            return $service->queryTemperaturesOfCurrentDayWithHour($timeOption);
         } else {
             return $service->queryTemperaturesOfCurrentDayAndHour();
         }
