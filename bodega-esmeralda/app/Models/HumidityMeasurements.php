@@ -72,4 +72,9 @@ class HumidityMeasurements extends Model
         return $groupedStations;
     }
 
+    public static function removeOldData(string $lastValidDate): void
+    {
+        HumidityMeasurements::where(self::DATE, "<" , $lastValidDate)->delete();
+    }
+
 }

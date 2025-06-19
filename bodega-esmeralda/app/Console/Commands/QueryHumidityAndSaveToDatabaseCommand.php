@@ -17,7 +17,6 @@ class QueryHumidityAndSaveToDatabaseCommand extends Command
     public function handle(QueryService $service){
         $service->login();
         $response = $service->queryHumidityOfCurrentDay();
-        Log::info(json_encode($response));
         $measurements = json_decode($response);
         HumidityMeasurements::saveAsHumidityMeasurements($measurements);
     }

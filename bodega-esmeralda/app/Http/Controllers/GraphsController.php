@@ -55,7 +55,7 @@ class GraphsController extends Controller
             } catch (\Exception $e) {
                 Log::error('Geocoding exception for lat:' . $latitude . ', lon:' . $longitude . '. Message: ' . $e->getMessage());
             }
-            
+
             return 'Unknown Location';
         });
     }
@@ -152,7 +152,7 @@ class GraphsController extends Controller
         ],
         "responsiveAnimationDuration" => 500
     ];
-    
+
     private const humiditiesOptions = [
         "responsive" => true,
         "maintainAspectRatio" => false,
@@ -270,7 +270,7 @@ class GraphsController extends Controller
 
         //TODO Pak de juiste info aka neem de API over zodat die weg kan.
         $allMeasurements = TemperaturesMeasurements::getTemperaturesMeasurementsOfTodayAndStationArray($stationName);
-        Log::info(print_r($allMeasurements, true));
+
         //TODO Daarna stap gewijs de html leger en leger maken.
         $stationData = $this->getSelectedStationData($allMeasurements, $stationName);
         $dataPerHour = $this->combinePerHour($stationData);
@@ -280,23 +280,23 @@ class GraphsController extends Controller
 
         $temperaturesData = [
             "labels" => self::HOURS_ARRAY,
-            "datasets" => [ 
-                [ 
-                    "label" => 'Temperature', 
-                    'backgroundColor' => '#CF1F25', 
-                    "data" => $temperatures 
-                ] 
+            "datasets" => [
+                [
+                    "label" => 'Temperature',
+                    'backgroundColor' => '#CF1F25',
+                    "data" => $temperatures
+                ]
             ]
         ];
 
         $humiditiesData = [
             "labels" => self::HOURS_ARRAY,
-            "datasets" => [ 
-                [ 
-                    "label" => 'Humidity', 
+            "datasets" => [
+                [
+                    "label" => 'Humidity',
                     'backgroundColor' => '#2b394E',
-                    "data" => $humidities 
-                ] 
+                    "data" => $humidities
+                ]
             ]
         ];
 

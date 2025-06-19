@@ -58,7 +58,6 @@ class QueryService
         $loginContext = stream_context_create($loginOptions);
         $url = self::getURL();
         $completeUrl = "$url/api/IWA/contracten/login?email=$this->email&password=$this->password";
-        Log::info($completeUrl);
         $resultLogin = file_get_contents(
             $completeUrl,
             false, $loginContext);

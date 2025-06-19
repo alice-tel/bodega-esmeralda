@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
@@ -116,6 +117,11 @@ class TemperaturesMeasurements extends Model
 
         return TemperaturesMeasurements::all()->where(self::DATE, now()->toDateString())
             ->whereBetween(self::TIME, $currentHourTimes)->all();
+    }
+
+    public static function removeOldData(string $lastValidDate): void
+    {
+        TemperaturesMeasurements::where(self::DATE, "<" , $lastValidDate)->delete();
     }
 
 }
