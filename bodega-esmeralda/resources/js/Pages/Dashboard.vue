@@ -6,13 +6,18 @@ import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { Link } from '@inertiajs/vue3';
 
-defineProps({
-    topStations: Array
+const props = defineProps({
+    topStations: Array,
+    stations: {
+        type: Array,
+        required: true,
+    }
 });
 
 const showWelcome = ref(false);
 const map = ref(null);
 const mapContainer = ref(null);
+const stationsArray = Object.entries(props.stations);
 
 onMounted(() => {
     if (!localStorage.getItem('welcomeShown')) {
@@ -24,13 +29,24 @@ onMounted(() => {
         }, 3000);
     }
 
+    setUpIcon();
+    setUpMap();
+    setUpMapMarkers();
+    setUpMapReseizer();
+});
+
+function setUpIcon(){
+    // Fix for default markers in Leaflet with Webpack
     delete L.Icon.Default.prototype._getIconUrl;
     L.Icon.Default.mergeOptions({
         iconRetinaUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-icon-2x.png',
         iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-icon.png',
         shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-shadow.png',
     });
+}
 
+function setUpMap(){
+    // Initialize the map
     map.value = L.map(mapContainer.value, {
         dragging: false,
         zoomControl: false,
@@ -42,20 +58,31 @@ onMounted(() => {
         touchZoom: false,
     }).setView([-34.6118, -58.3960], 6);
 
+    // Add OpenStreetMap tile layer
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
         maxZoom: 19,
     }).addTo(map.value);
+}
 
-    L.marker([-34.6118, -58.3960])
-        .addTo(map.value)
-        .bindPopup('¡Hola desde Buenos Aires, Argentina!')
-        .openPopup();
+function setUpMapMarkers(){
+    for (const station of stationsArray) {
+        const data = station[1];
+        addMapMarker(data['longitude'], data['latitude']);
+    }
+}
 
+function addMapMarker(longitude, latitude){
+    L.marker([latitude, longitude])
+        .addTo(map.value);
+}
+function setUpMapReseizer(){
+    // Resize map when container changes
     setTimeout(() => {
         map.value.invalidateSize();
     }, 100);
-});
+}
+
 
 onUnmounted(() => {
     if (map.value) {

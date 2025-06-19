@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\HumidityMeasurements;
+use App\Models\TemperaturesMeasurements;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Inertia\Inertia;
@@ -53,7 +54,7 @@ class DashboardController extends Controller
             } catch (\Exception $e) {
                 Log::error('Geocoding exception for lat:' . $latitude . ', lon:' . $longitude . '. Message: ' . $e->getMessage());
             }
-            
+
             return 'Unknown Location';
         });
     }
@@ -178,9 +179,10 @@ class DashboardController extends Controller
     public function index()
     {
         $topStations = $this->getData();
-
+        $datePerStation = TemperaturesMeasurements::getTemperaturesOfNowLatestUnique();
         return Inertia::render('Dashboard', [
-            'topStations' => $topStations
+            'topStations' => $topStations,
+            'stations' => $datePerStation,
         ]);
     }
 

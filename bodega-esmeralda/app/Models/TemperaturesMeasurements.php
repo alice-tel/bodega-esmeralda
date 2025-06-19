@@ -70,13 +70,13 @@ class TemperaturesMeasurements extends Model
     }
 
     /***
-     * This method will gather all temperature measurements of the current day and order them per station,
+     * This method will gather all temperature measurements of the current day and hour and order them per station,
      * with the latest temperature measured from this station.
      * @return array
      */
-    public static function getTemperaturesOfTodayLatestUnique(): array
+    public static function getTemperaturesOfNowLatestUnique(): array
     {
-        $tempMeasurs = $stationData = self::getTemperaturesMeasurementsOfToday();
+        $tempMeasurs = self::getTemperaturesMeasurementsOfNow();
         $tempPerStation = [];
         foreach ($tempMeasurs as $tempMeasurement) {
             $tempMeasurArr = $tempMeasurement->toArray();
@@ -114,7 +114,7 @@ class TemperaturesMeasurements extends Model
         $currentHourTimes[] = $lastHourTime;
         $currentHourTimes[] = $currentHourTime;
 
-        return TemperaturesMeasurements::all()->where(self::DATE, now()->toDate())
+        return TemperaturesMeasurements::all()->where(self::DATE, now()->toDateString())
             ->whereBetween(self::TIME, $currentHourTimes)->all();
     }
 

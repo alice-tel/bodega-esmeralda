@@ -17,7 +17,7 @@ class MapController extends Controller
      */
     public function show(): Response
     {
-        $datePerStation = TemperaturesMeasurements::getTemperaturesOfTodayLatestUnique();
+        $datePerStation = TemperaturesMeasurements::getTemperaturesOfNowLatestUnique();
 //        Log::info(print_r($datePerStation,true));
         return Inertia::render('Map', [
             'canLogin' => Route::has('login'),
