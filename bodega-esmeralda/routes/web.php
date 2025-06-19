@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ApiTestController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ExportDataController;
 use App\Http\Controllers\GraphsController;
 use App\Http\Controllers\MapController;
 use App\Http\Controllers\ProfileController;
@@ -17,6 +18,10 @@ Route::get('/', function () {
 Route::get('/dashboard', [DashboardController::class, 'index'])
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
+
+Route::get('/export-data', [ExportDataController::class, 'exportData'])
+    ->middleware(['auth', 'verified'])
+    ->name('export.data');
 
 Route::get('/map', [MapController::class, 'show'])->middleware(['auth', 'verified'])->name('map');
 

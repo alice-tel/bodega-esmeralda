@@ -89,6 +89,7 @@ onUnmounted(() => {
         map.value.remove();
     }
 });
+
 </script>
 
 <template>
@@ -100,9 +101,11 @@ onUnmounted(() => {
                 <span class="text-lg sm:text-xl font-semibold leading-tight text-font-800">
                     Welcome, {{ $page.props.auth.user.name }}
                 </span>
-                <button class="bg-details-100 hover:from-details-100 hover:to-red-800 text-white font-s py-1.5 px-3 rounded-lg text-sm shadow-lg transform transition-all duration-200 hover:scale-[1.02] active:scale-[0.98]">
-                    Export
-                </button>
+                <a :href="route('export.data')" download="'measurements.il'" >
+                    <button class="bg-details-100 hover:from-details-100 hover:to-red-800 text-white font-s py-1.5 px-3 rounded-lg text-sm shadow-lg transform transition-all duration-200 hover:scale-[1.02] active:scale-[0.98]">
+                        Export
+                    </button>
+                </a>
             </div>
         </template>
 
