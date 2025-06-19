@@ -66,9 +66,7 @@ class TemperaturesMeasurements extends Model
         $stationData = self::getTemperaturesMeasurementsOfTodayAndStation($stationName);
         $dataArray = [];
         foreach ($stationData as $measurement) {
-            $tempArray = $measurement->toArray();
-            $tempArray['humidity'] = random_int(0, 99);
-            $dataArray[] = $tempArray;
+            $dataArray[] = $measurement->toArray();
         }
         return $dataArray;
     }

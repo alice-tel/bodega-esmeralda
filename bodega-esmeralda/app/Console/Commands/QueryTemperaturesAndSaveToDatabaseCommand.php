@@ -17,7 +17,7 @@ class QueryTemperaturesAndSaveToDatabaseCommand extends Command
         $service->login();
 
         if ($this->hasOption('all')){
-            for ($i=1; $i < 24; $i++){
+            for ($i=0; $i < 24; $i++){
                 $timeOption = sprintf("%02d", $i);
                 $this->querySave($service, $timeOption);
             }
