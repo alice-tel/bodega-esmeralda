@@ -16,6 +16,7 @@ class HumidityMeasurements extends Model
     public const LATITUDE = 'latitude';
     public const ELEVATION = 'elevation';
     public const HUMIDITY = 'humidity';
+    public const LOCATION = 'location';
     public const DATE = 'date';
     public const TIME = 'time';
 
@@ -29,6 +30,7 @@ class HumidityMeasurements extends Model
         self::LATITUDE,
         self::ELEVATION,
         self::HUMIDITY,
+        self::LOCATION,
     ];
 
     public static function saveAsHumidityMeasurements(array $measurements): void
@@ -42,13 +44,18 @@ class HumidityMeasurements extends Model
             $tempMeas[HumidityMeasurements::LONGITUDE] = $measurement->longitude;
             $tempMeas[HumidityMeasurements::LATITUDE] = $measurement->latitude;
             $tempMeas[HumidityMeasurements::ELEVATION] = $measurement->elevation;
+            $tempMeas[HumidityMeasurements::LOCATION] = $measurement->location;
             $tempMeas->save();
         }
     }
 
-    static function getHumidityMeasurementsOfToday(): array
+    private static function getHumidityMeasurementsOfToday(): array
     {
         return HumidityMeasurements::all()->where(self::DATE, now()->toDateString())->all();
+    }
+    public static function getHumidityMeasurementsOfTodayAndStation(string $stationName): array
+    {
+        return HumidityMeasurements::all()->where(self::NAME, $stationName)->where(self::DATE, now()->toDateString())->all();
     }
 
     public static function getHumidityAverageOfStationsOfToday(): array
@@ -58,7 +65,10 @@ class HumidityMeasurements extends Model
             $total = array_reduce($groupedStation, function ($carry, $item) {
                 return $carry + $item[HumidityMeasurements::HUMIDITY];
             }, 0);
-            return $total/count($groupedStation);
+            $stationName = $groupedStation[0][HumidityMeasurements::NAME];
+            $stationLocation = $groupedStation[0][HumidityMeasurements::LOCATION];
+            $average = round($total/count($groupedStation), 2);
+            return [self::NAME => $stationName, self::LOCATION => $stationLocation, 'average' => $average];
         }, $groupedStations);
     }
 
@@ -71,7 +81,6 @@ class HumidityMeasurements extends Model
         }
         return $groupedStations;
     }
-
     public static function removeOldData(string $lastValidDate): void
     {
         HumidityMeasurements::where(self::DATE, "<" , $lastValidDate)->delete();

@@ -21,6 +21,7 @@ return new class extends Migration
             $table->float(TemperaturesMeasurements::LATITUDE);
             $table->float(TemperaturesMeasurements::ELEVATION);
             $table->float(TemperaturesMeasurements::TEMPERATURE);
+            $table->string(TemperaturesMeasurements::LOCATION);
         });
 
     }

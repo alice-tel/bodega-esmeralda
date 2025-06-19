@@ -21,6 +21,7 @@ return new class extends Migration
             $table->float(HumidityMeasurements::LATITUDE);
             $table->float(HumidityMeasurements::ELEVATION);
             $table->float(HumidityMeasurements::HUMIDITY);
+            $table->string(HumidityMeasurements::LOCATION);
         });
 
     }

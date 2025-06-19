@@ -139,11 +139,11 @@ onUnmounted(() => {
                                 <div class="flex items-center gap-2">
                                     <span class="text-secondary-100 min-w-[1.5rem]">{{ index + 1 }}.</span>
                                     <div class="flex flex-col">
-                                        <span>{{ station.location_name }}</span>
+                                        <span>{{ station.location }}</span>
                                         <span class="text-sm text-gray-500">Station: {{ station.name }}</span>
                                     </div>
                                 </div>
-                                <span class="text-secondary-100">{{ station.humidity }}%</span>
+                                <span class="text-secondary-100">{{ station.average }}%</span>
                             </Link>
                         </li>
                     </ol>

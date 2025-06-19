@@ -63,9 +63,10 @@ function setUpMapMarkers(){
     for (const station of stationsArray) {
         const data = station[1];
         const stationName = data['name'];
+        const stationLocation = data['location'];
         const temperature = data['temperature'];
         const time = data['time'];
-        const message = `<a href="/graph/${stationName}"><p>This is station: ${stationName} Temperature was: ${temperature}°C at: ${time}</p></a>`
+        const message = `<a href="/graph/${stationName}"><p>This is station: ${stationName} at ${stationLocation}. Has temperature of: ${temperature}°C at: ${time}</p></a>`
         addMapMarker(data['longitude'], data['latitude'], message);
     }
 }

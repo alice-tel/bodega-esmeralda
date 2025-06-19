@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\HumidityMeasurements;
 use App\Models\TemperaturesMeasurements;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -248,57 +249,20 @@ class GraphsController extends Controller
 
     public function getGraph($stationName)
     {
-        // Hardcoded station coordinates for demonstration purposes, matching DashboardController
-        $stations = [
-            "100020" => ["longitude" => -68.1193,  "latitude" => -16.4897],
-            "100040" => ["longitude" => -55.7821,  "latitude" => -34.9011],
-            "100060" => ["longitude" => -60.0217,  "latitude" => -3.1190],
-            "100070" => ["longitude" => -66.9188,  "latitude" => 10.4806],
-            "100080" => ["longitude" => -78.4678,  "latitude" => -0.1807],
-            "100090" => ["longitude" => -71.4925,  "latitude" => -13.5320],
-            "100100" => ["longitude" => -58.3816,  "latitude" => -34.6037],
-            "100110" => ["longitude" => -70.6483,  "latitude" => -33.4489],
-            "100120" => ["longitude" => -46.6333,  "latitude" => -23.5505],
-            "100130" => ["longitude" => -74.0721,  "latitude" => 4.7110]
-        ];
 
-        $locationName = 'Unknown Location';
-        if (isset($stations[$stationName])) {
-            $stationCoords = $stations[$stationName];
-            $locationName = $this->getLocationName($stationCoords['latitude'], $stationCoords['longitude']);
-        }
+
 
         //TODO Pak de juiste info aka neem de API over zodat die weg kan.
-        $allMeasurements = TemperaturesMeasurements::getTemperaturesMeasurementsOfTodayAndStationArray($stationName);
+        $allTempMeasurements = TemperaturesMeasurements::getTemperaturesMeasurementsOfTodayAndStationArray($stationName);
+        $allHumMeasurements = HumidityMeasurements::getHumidityMeasurementsOfTodayAndStation($stationName); //$this->fillArray($this->getAttributeValues($avergedDataPerHour, "humidity"), 24);
 
-        //TODO Daarna stap gewijs de html leger en leger maken.
-        $stationData = $this->getSelectedStationData($allMeasurements, $stationName);
-        $dataPerHour = $this->combinePerHour($stationData);
-        $avergedDataPerHour = $this->avarigeData($dataPerHour);
-        $temperatures = $this->fillArray($this->getAttributeValues($avergedDataPerHour, "temperature"), 24);
-        $humidities = $this->fillArray($this->getAttributeValues($avergedDataPerHour, "humidity"), 24);
+        $locationName = isset($allTempMeasurements[0]) ? $allTempMeasurements[0][TemperaturesMeasurements::LOCATION] : 'Unknown Location';
 
-        $temperaturesData = [
-            "labels" => self::HOURS_ARRAY,
-            "datasets" => [
-                [
-                    "label" => 'Temperature',
-                    'backgroundColor' => '#CF1F25',
-                    "data" => $temperatures
-                ]
-            ]
-        ];
+        $temperatures = $this->getGroupedAveragedStationData($allTempMeasurements, $stationName, "temperature");
+        $humidities = $this->getGroupedAveragedStationData($allHumMeasurements, $stationName, "humidity");
 
-        $humiditiesData = [
-            "labels" => self::HOURS_ARRAY,
-            "datasets" => [
-                [
-                    "label" => 'Humidity',
-                    'backgroundColor' => '#2b394E',
-                    "data" => $humidities
-                ]
-            ]
-        ];
+        $temperaturesData = $this->getLabelData('Temperature', '#CF1F25', $temperatures);
+        $humiditiesData = $this->getLabelData('Humidity', '#2b394E', $humidities);
 
         return Inertia::render('Graph', [
             'temperaturesData' => $temperaturesData,
@@ -310,7 +274,27 @@ class GraphsController extends Controller
         ]);
     }
 
+    function getLabelData($title, $color, $data): array
+    {
+        return [
+            "labels" => self::HOURS_ARRAY,
+            "datasets" => [
+                [
+                    "label" => $title,
+                    'backgroundColor' => $color,
+                    "data" => $data
+                ]
+            ]
+        ];
+    }
 
+    function getGroupedAveragedStationData($allMeasurements, $stationName, $dataName): array
+    {
+        $stationData = $this->getSelectedStationData($allMeasurements, $stationName);
+        $dataPerHour = $this->combinePerHour($stationData, $dataName);
+        $avergedDataPerHour = $this->avarigeData($dataPerHour, $dataName);
+        return $this->fillArray($this->getAttributeValues($avergedDataPerHour, $dataName), 24);
+    }
 
 // Group raw stations by name
     function groupedStations(array $stations)
@@ -344,7 +328,7 @@ class GraphsController extends Controller
         return $selectedData;
     }
 
-    function combinePerHour($data): array
+    function combinePerHour($data, $dataName): array
     {
         $hourlyData = [];
 
@@ -354,20 +338,18 @@ class GraphsController extends Controller
 
             if (!isset($hourlyData[$hour])) {
                 $hourlyData[$hour] = [
-                    'total_temp' => 0,
-                    'total_humidity' => 0,
+                    'total_val' => 0,
                     'count' => 0
                 ];
             }
 
-            $hourlyData[$hour]['total_temp'] += $entry['temperature'];
-            $hourlyData[$hour]['total_humidity'] += $entry['humidity'];
+            $hourlyData[$hour]['total_val'] += $entry[$dataName];
             $hourlyData[$hour]['count'] += 1;
         }
         return $hourlyData;
     }
 
-    function avarigeData($hourlyData)
+    function avarigeData($hourlyData, $dataName)
     {
         $filteredData = [];
 
@@ -375,8 +357,7 @@ class GraphsController extends Controller
 //            print_r($data);
             $filteredData[] = [
                 'hour' => $hour,
-                'temperature' => round($data['total_temp'] / $data['count'], 2),
-                'humidity' => round($data['total_humidity'] / $data['count'], 2),
+                $dataName => round($data['total_val'] / $data['count'], 2),
             ];
         }
         return $filteredData;

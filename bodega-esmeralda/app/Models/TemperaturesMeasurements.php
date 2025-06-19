@@ -18,6 +18,7 @@ class TemperaturesMeasurements extends Model
     public const LATITUDE = 'latitude';
     public const ELEVATION = 'elevation';
     public const TEMPERATURE = 'temperature';
+    public const LOCATION = 'location';
     public const DATE = 'date';
     public const TIME = 'time';
 
@@ -31,6 +32,7 @@ class TemperaturesMeasurements extends Model
         self::LATITUDE,
         self::ELEVATION,
         self::TEMPERATURE,
+        self::LOCATION,
     ];
 
     public static function saveAsTempMeasurements(array $measurements): void
@@ -44,6 +46,7 @@ class TemperaturesMeasurements extends Model
             $tempMeas[TemperaturesMeasurements::LONGITUDE] = $measurement->longitude;
             $tempMeas[TemperaturesMeasurements::LATITUDE] = $measurement->latitude;
             $tempMeas[TemperaturesMeasurements::ELEVATION] = $measurement->elevation;
+            $tempMeas[TemperaturesMeasurements::LOCATION] = $measurement->location;
             $tempMeas->save();
         }
     }
@@ -52,11 +55,11 @@ class TemperaturesMeasurements extends Model
     {
         return TemperaturesMeasurements::all()->where(self::DATE, now()->toDateString())->all();
     }
-
     public static function getTemperaturesMeasurementsOfTodayAndStation(string $stationName): array
     {
         return TemperaturesMeasurements::all()->where(self::NAME, $stationName)->where(self::DATE, now()->toDateString())->all();
     }
+
 
     public static function getTemperaturesMeasurementsOfTodayAndStationArray(string $stationName): array
     {
