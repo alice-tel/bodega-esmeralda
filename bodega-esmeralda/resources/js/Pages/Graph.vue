@@ -35,7 +35,7 @@ const props = defineProps({
             <div
                 class="space-y-4 px-2 sm:px-2 md:px-2 lg:px-2"
             >
-                <div class="bg-white p-2 sm:p-4 md:p-6 lg:p-8 shadow rounded-lg">
+                <div class="bg-white p-3 sm:p-4 md:p-6 lg:p-8 shadow rounded-lg">
                     <h2 class="text-xl sm:text-xl font-semibold mb-4">Temperatures</h2>
                     <div class="h-[300px] sm:h-[400px] md:h-[500px] lg:h-[600px]">
                         <Bar
@@ -45,7 +45,7 @@ const props = defineProps({
                     </div>
                 </div>
 
-                <div class="bg-white p-2 sm:p-4 md:p-6 lg:p-8 shadow rounded-lg">
+                <div class="bg-white p-3 sm:p-4 md:p-6 lg:p-8 shadow rounded-lg">
                     <h2 class="text-xl sm:text-xl font-semibold mb-4">Humidity</h2>
                     <div class="h-[300px] sm:h-[400px] md:h-[500px] lg:h-[600px]">
                         <Bar

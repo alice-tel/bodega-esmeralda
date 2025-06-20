@@ -49,10 +49,12 @@ function setUpIcon(){
 }
 
 function setUpMap(){
-    // Initialize the map
-    map.value = L.map(mapContainer.value).setView([-34.6118, -58.3960], 6); // Centered on Argentina (Buenos Aires) :)
+    // Detect mobile
+    const isMobile = window.innerWidth <= 640; // Tailwind's sm breakpoint
+    const zoomLevel = isMobile ? 4 : 6; // 4 for mobile, 6 for desktop
 
-    // Add OpenStreetMap tile layer
+    map.value = L.map(mapContainer.value).setView([-34.6118, -58.3960], zoomLevel);
+
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
         maxZoom: 19,
@@ -66,16 +68,25 @@ function setUpMapMarkers(){
         const stationLocation = data['location'];
         const temperature = data['temperature'];
         const time = data['time'];
-        const message = `<a href="/graph/${stationName}"><p>This is station: ${stationName} at ${stationLocation}. Has temperature of: ${temperature}°C at: ${time}</p></a>`
-        addMapMarker(data['longitude'], data['latitude'], message);
+        const message = `<a href="/graph/${stationName}"><p> Location: ${stationLocation} <br> Station: ${stationName} <br> Temp: ${temperature}°C <br> Time: ${time}</p></a>`
+        addMapMarker(data['longitude'], data['latitude'], message, temperature);
     }
 }
 
-function addMapMarker(longitude, latitude, message){
-    L.marker([latitude, longitude])
+function addMapMarker(longitude, latitude, message, temperature){
+    const tempIcon = L.divIcon({
+        className: 'custom-temp-marker',
+        html: `<div class="temp-marker">${temperature}°C</div>`,
+        iconSize: [30, 30], // adjust as needed
+        iconAnchor: [20, 40], // adjust as needed
+        popupAnchor: [0, -40]
+    });
+
+    L.marker([latitude, longitude], { icon: tempIcon })
         .addTo(map.value)
         .bindPopup(message);
 }
+
 function setUpMapReseizer(){
     // Resize map when container changes
     setTimeout(() => {
@@ -120,7 +131,6 @@ function handleImageError() {
 </template>
 
 <style scoped>
-/* Ensure Leaflet controls are properly styled */
 :deep(.leaflet-container) {
     font-family: inherit;
     border-radius: 8px;
@@ -133,5 +143,38 @@ function handleImageError() {
 
 :deep(.leaflet-popup-tip) {
     background: white;
+}
+
+:deep(.leaflet-popup-content a) {
+    text-decoration: none;
+    color: inherit;
+    font-weight: 500;
+    transition: color 0.2s;
+}
+:deep(.leaflet-popup-content a:hover) {
+    color: #CF1F25; /* Tailwind's red-600 */
+}
+
+:deep(.custom-temp-marker .temp-marker) {
+    background: #2b394E;
+    color: white;
+    font-weight: bold;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid white;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    font-size: 0.9rem;
+}
+
+@media (max-width: 640px) {
+  :deep(.custom-temp-marker .temp-marker) {
+    width: 28px;
+    height: 28px;
+    font-size: 0.7rem;
+  }
 }
 </style>

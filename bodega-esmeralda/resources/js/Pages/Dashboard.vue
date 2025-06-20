@@ -46,7 +46,10 @@ function setUpIcon(){
 }
 
 function setUpMap(){
-    // Initialize the map
+    // Detect mobile
+    const isMobile = window.innerWidth <= 640; // Tailwind's sm breakpoint
+    const zoomLevel = isMobile ? 4 : 6; // 4 for mobile, 6 for desktop
+
     map.value = L.map(mapContainer.value, {
         dragging: false,
         zoomControl: false,
@@ -56,7 +59,7 @@ function setUpMap(){
         keyboard: false,
         tap: false,
         touchZoom: false,
-    }).setView([-34.6118, -58.3960], 6);
+    }).setView([-34.6118, -58.3960], zoomLevel);
 
     // Add OpenStreetMap tile layer
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -68,14 +71,24 @@ function setUpMap(){
 function setUpMapMarkers(){
     for (const station of stationsArray) {
         const data = station[1];
-        addMapMarker(data['longitude'], data['latitude']);
+        const temperature = data['temperature'];
+        addMapMarker(data['longitude'], data['latitude'], temperature);
     }
 }
 
-function addMapMarker(longitude, latitude){
-    L.marker([latitude, longitude])
+function addMapMarker(longitude, latitude, temperature){
+    const tempIcon = L.divIcon({
+        className: 'custom-temp-marker',
+        html: `<div class="temp-marker">${temperature}°C</div>`,
+        iconSize: [30, 30],
+        iconAnchor: [20, 40],
+        popupAnchor: [0, -40]
+    });
+
+    L.marker([latitude, longitude], { icon: tempIcon })
         .addTo(map.value);
 }
+
 function setUpMapReseizer(){
     // Resize map when container changes
     setTimeout(() => {
@@ -111,7 +124,7 @@ onUnmounted(() => {
 
         <div class="space-y-4 px-2 py-3 sm:px-2 sm:py-1 md:px-2 lg:px-2">
             <template v-if="showWelcome">
-                <div class="mb-4">
+                <div class="mb-4 sm:mb-2">
                     <div class="bg-secondary-100 shadow rounded-lg p-4 sm:p-8 text-background-100">
                         You're logged in!
                     </div>
@@ -167,5 +180,28 @@ onUnmounted(() => {
 
 :deep(.leaflet-popup-tip) {
     background: white;
+}
+
+:deep(.custom-temp-marker .temp-marker) {
+    background: #2b394E;
+    color: white;
+    font-weight: bold;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid white;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    font-size: 0.9rem;
+}
+
+@media (max-width: 640px) {
+  :deep(.custom-temp-marker .temp-marker) {
+    width: 28px;
+    height: 28px;
+    font-size: 0.7rem;
+  }
 }
 </style>
