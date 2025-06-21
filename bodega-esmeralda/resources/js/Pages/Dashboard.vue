@@ -46,9 +46,8 @@ function setUpIcon(){
 }
 
 function setUpMap(){
-    // Detect mobile
     const isMobile = window.innerWidth <= 640; // Tailwind's sm breakpoint
-    const zoomLevel = isMobile ? 4 : 6; // 4 for mobile, 6 for desktop
+    const zoomLevel = isMobile ? 4 : 6;
 
     map.value = L.map(mapContainer.value, {
         dragging: false,
@@ -61,10 +60,9 @@ function setUpMap(){
         touchZoom: false,
     }).setView([-34.6118, -58.3960], zoomLevel);
 
-    // Add OpenStreetMap tile layer
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-        maxZoom: 19,
+        maxZoom: 19
     }).addTo(map.value);
 }
 
@@ -77,9 +75,10 @@ function setUpMapMarkers(){
 }
 
 function addMapMarker(longitude, latitude, temperature){
+    const roundedTemp = Math.round(temperature);
     const tempIcon = L.divIcon({
         className: 'custom-temp-marker',
-        html: `<div class="temp-marker">${temperature}°C</div>`,
+        html: `<div class="temp-marker">${roundedTemp}°C</div>`,
         iconSize: [30, 30],
         iconAnchor: [20, 40],
         popupAnchor: [0, -40]
